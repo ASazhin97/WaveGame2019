@@ -8,7 +8,7 @@ Known Bugs:
 
 Other Improvements:
 
-- Multiple places where Images are stored in the classpath... there only needs to be one directory of Images.
+-Multiple places where Images are stored in the classpath... there only needs to be one directory of Images.
 
 -Add a way for the user to know there is or isn’t a game saved
 
