@@ -33,6 +33,9 @@ import io.socket.SocketIOException;
  * @author Brandon Loehle 5/30/16
  */
 
+//THIS COMMENT IS FOR DEMONSTRATING THE GIT
+//HUB LAB WORKSHOP
+
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
