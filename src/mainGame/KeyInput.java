@@ -22,12 +22,13 @@ public class KeyInput extends KeyAdapter {
 	private HUD hud;
 	private Player player;
 	private Spawn1to10 spawner;
+	private SpawnEasy spawnerE;
 	private Upgrades upgrades;
 	private String ability;
 	private Pause pause;
 
 	// uses current handler created in Game as parameter
-	public KeyInput(Pause pause, Handler handler, Game game, HUD hud, Player player, Spawn1to10 spawner, Upgrades upgrades) {
+	public KeyInput(Pause pause, Handler handler, Game game, HUD hud, Player player, Spawn1to10 spawner, SpawnEasy spawnerE, Upgrades upgrades) {
 		this.handler = handler;
 		this.speed = Player.playerSpeed;
 		this.diagonalSpeed = Player.diagonalPlayerSpeed;
@@ -35,6 +36,7 @@ public class KeyInput extends KeyAdapter {
 		this.player = player;
 		this.hud = hud;
 		this.spawner = spawner;
+		this.spawnerE = spawnerE;
 		this.upgrades = upgrades;
 		this.pause = pause;
 		keyDown[0] = false;
@@ -52,10 +54,9 @@ public class KeyInput extends KeyAdapter {
 		
 		//pause functionality
 		if(key == 80){
-			if(game.gameState == STATE.Game){
+			if(game.gameState == STATE.Game || game.gameState == STATE.GameEasy){
 				pause.setGameSaved(false);
 				game.gameState = STATE.Pause;
-				
 				
 			} else if (game.gameState == STATE.Pause || game.gameState == STATE.PauseH1 || game.gameState == STATE.PauseH2 || game.gameState == STATE.PauseH3 || game.gameState ==STATE.PauseShop){
 				//game.socket.emit("getBoard");

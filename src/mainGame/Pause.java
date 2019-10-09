@@ -543,3 +543,4 @@ public class Pause {
 		return image;
 	}
 }
+
