@@ -112,11 +112,11 @@ public class Game extends Canvas implements Runnable {
 				this.spawner2);
 		gameOver = new GameOver(this, this.handler, this.hud, this.leaderboard);
 		gameWon = new GameWon(this, this.handler, this.hud);
-		pause = new Pause(this.hud, this, this.handler, false, this.spawner, this.spawner2, this.spawnerE, upgrades);
+		pause = new Pause(this.hud, this, this.handler, false, this.spawner, this.spawner2, spawnerE, upgrades);
 		leaderboard = new Leaderboard(this,this.handler,this.hud);
 		mouseListener = new MouseListener(this, this.handler, this.hud, this.spawnerE, this.spawner, this.spawner2, this.upgradeScreen,
 				this.player, this.upgrades, pause);
-		this.addKeyListener(new KeyInput(this.pause, this.handler, this, this.hud, this.player, this.spawner, this.spawnerE, this.upgrades));
+		this.addKeyListener(new KeyInput(this.pause, this.handler, this, this.hud, this.player, this.spawner, this.upgrades));
 		this.addMouseListener(mouseListener);
 		gameMIDIPlayer = new Midi();
 		menuMIDIPlayer = new Midi();

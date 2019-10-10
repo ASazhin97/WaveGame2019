@@ -69,8 +69,8 @@ public class MouseListener extends MouseAdapter {
 			MouseListener.setEasy(false);
 			
 		} else if (game.gameState == STATE.GameWon || game.gameState == STATE.GameWonEasy){ //is the game is won, or its the easy mode
-			handler.object.clear();
 			System.out.println("ass and titties");
+			handler.object.clear();
 			upgrades.resetUpgrades();
 			hud.health = 100;
 			hud.setScore(0);

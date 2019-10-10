@@ -326,7 +326,7 @@ public class Pause {
     g.drawString(this.getDescription(),1000,650);
 
         }
-			else if(game.gameState == STATE.PauseH1){
+			else if(game.gameState == STATE.Help2){
 			
 			 font = new Font("impact", 1, 50);
 			font2 = new Font("impact", 1, 30);
