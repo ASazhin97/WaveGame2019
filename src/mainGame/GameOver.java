@@ -62,7 +62,7 @@ public class GameOver {
 			System.out.println("successfully sentScore(): " + username + ": " + hud.getScore());
 			
 			//Retrieve new data
-			leaderboard.retrieveData();
+			//leaderboard.retrieveData();
 			hud.sortLeaderboard();
 			
 		} catch(IOException e) {
