@@ -9,6 +9,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.Thread.State;
@@ -33,11 +35,10 @@ import io.socket.SocketIOException;
  * @author Brandon Loehle 5/30/16
  */
 
-//THIS COMMENT IS FOR DEMONSTRATING THE GIT
-//HUB LAB WORKSHOP
+// THIS COMMENT IS FOR DEMONSTRATING THE GIT
+// HUB LAB WORKSHOP
 
 public class Game extends Canvas implements Runnable {
-
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 1920, HEIGHT = 1080;
 	public static final int drawWidth = 1280, drawHeight = 720;
@@ -109,7 +110,7 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player, handler, this.hud, this);
 		upgrades = new Upgrades(this, this.handler, this.hud, this.upgradeScreen, this.player, this.spawnerE, this.spawner,
 				this.spawner2);
-		gameOver = new GameOver(this, this.handler, this.hud);
+		gameOver = new GameOver(this, this.handler, this.hud, this.leaderboard);
 		gameWon = new GameWon(this, this.handler, this.hud);
 		pause = new Pause(this.hud, this, this.handler, false, this.spawner, this.spawner2, this.spawnerE, upgrades);
 		leaderboard = new Leaderboard(this,this.handler,this.hud);
@@ -125,47 +126,51 @@ public class Game extends Canvas implements Runnable {
 		new Window((int) drawWidth, (int) drawHeight, "Wave Game ", this);
 		
 		
-		socket = new SocketIO("http://tubbschat.com:3000/");
-		socket.connect(new IOCallback() {
-			@Override
-			public void onMessage(JSONObject json, IOAcknowledge ack) {
-				try {
-					System.out.println("Server said:" + json.toString(2));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
+		leaderboard.retrieveData();
+		  
+	    
+	    // OLD SERVER-BASED LEADERBOARD CODE
+	    // BAD IDEA FOR SEMESTER LONG PROJECT
+	    // socket = new SocketIO("http://tubbschat.com:3000/");
+	    // socket.connect(new IOCallback() {
+	    // @Override
+	    // public void onMessage(JSONObject json, IOAcknowledge ack) {
+	    // try {
+	    // System.out.println("Server said:" + json.toString(2));
+	    // } catch (JSONException e) {
+	    // e.printStackTrace();
+	    // }
+	    // }
 
-			@Override
-			public void onMessage(String data, IOAcknowledge ack) {
-				hud.setHighScore(data);
-			}
+	    // @Override
+	    // public void onMessage(String data, IOAcknowledge ack) {
+	    // hud.setHighScore(data);
+	    // }
 
-			@Override
-			public void onError(SocketIOException socketIOException) {
-				System.out.println("an Error occured");
-				socketIOException.printStackTrace();
-			}
+	    // @Override
+	    // public void onError(SocketIOException socketIOException) {
+	    // System.out.println("an Error occured");
+	    // socketIOException.printStackTrace();
+	    // }
 
-			@Override
-			public void onDisconnect() {
-				System.out.println("Connection terminated.");
-			}
+	    // @Override
+	    // public void onDisconnect() {
+	    // System.out.println("Connection terminated.");
+	    // }
 
-			@Override
-			public void onConnect() {
-				socket.emit("getScore");
-				System.out.println("Connection established");
-			}
+	    // @Override
+	    // public void onConnect() {
+	    // socket.emit("getScore");
+	    // System.out.println("Connection established");
+	    // }
 
-			@Override
-			public void on(String event, IOAcknowledge ack, Object... args) {
-				System.out.println("Server triggered event '" + event + "'");
-			}
-			
-			
-		});
-		socket.emit("getBoard");
+	    // @Override
+	    // public void on(String event, IOAcknowledge ack, Object... args) {
+	    // System.out.println("Server triggered event '" + event + "'");
+	    // }
+
+	    // });
+	    // socket.emit("getBoard");
 	}
 
 	/**
