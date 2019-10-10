@@ -3,6 +3,8 @@ package mainGame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import com.sun.glass.ui.EventLoop.State;
+
 import mainGame.Game.STATE;
 
 /**
@@ -52,7 +54,7 @@ public class KeyInput extends KeyAdapter {
 		
 		//pause functionality
 		if(key == 80){
-			if(game.gameState == STATE.Game){
+			if(game.gameState == STATE.Game || game.gameState == STATE.GameEasy){
 				pause.setGameSaved(false);
 				game.gameState = STATE.Pause;
 				

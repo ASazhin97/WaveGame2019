@@ -281,16 +281,55 @@ public class HUD {
 		this.health = healthMax;
 	}
 
+	//EXPECTED FORMAT OF `data` string:
+	// "name,score\nname,score\nname,score"
+	// IE: "richie,900\nvictoria,200\ntim,600"
 	public void setHighScore(String data) {
+		//Instantiate
+		leaderboard = new ArrayList<String>();
 		
-		leaderboard = new ArrayList<String>(Arrays.asList(data.split(",")));
+		//First separate incoming data by row, or by name
+		if(data != null) {
+			String[] rows = data.split("\n");
+			
+			for(int i = 0; i < rows.length; i++) {
+				leaderboard.add(rows[i]);
+			}
+		} else {
+			leaderboard.clear();
+		}
+		
+		
 		System.out.println(leaderboard.size());
-		
+		System.out.println(leaderboard.get(0));
+
 		this.highScoreString = leaderboard.get(0);
 		
 	}
 	
 	public ArrayList<String> getLeaderboard(){
 		return leaderboard;
+	}
+	
+	//This will sort the leaderboard list by high score (index 0 -> highest)
+	//This is a bubble sort because I highly doubt we will ever have more than a few scores
+	public void sortLeaderboard() {
+		if(leaderboard.size() == 0) {
+			return;
+		} 
+		
+		for(int i = 0; i < leaderboard.size(); i++) {
+			int scoreI = Integer.parseInt(leaderboard.get(i).split(",")[1]);
+			
+			for(int j = 0; j < leaderboard.size(); j++) {
+				int scoreJ = Integer.parseInt(leaderboard.get(j).split(",")[1]);
+				
+				if(scoreJ < scoreI) {
+					String tmp = leaderboard.get(j);
+					leaderboard.set(j, leaderboard.get(i));
+					leaderboard.set(i, tmp);
+				}
+			}
+		}
 	}
 }

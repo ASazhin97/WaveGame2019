@@ -34,23 +34,42 @@ public class GameOver {
 	private Color retryColor;
 	private String text;
 	private int ticks = 0;
+	private Leaderboard leaderboard;
 
-	public GameOver(Game game, Handler handler, HUD hud) throws MalformedURLException {
+	public GameOver(Game game, Handler handler, HUD hud, Leaderboard leaderboard) throws MalformedURLException {
 		this.game = game;
 		this.handler = handler;
 		this.hud = hud;
+		this.leaderboard = leaderboard;
 		timer = 90;
 		this.retryColor = Color.white;
 	}
 	
-	public void sendScore(){
+	public void sendScore() {
 		
 		String username = JOptionPane.showInputDialog("Enter a username to submit your score!");
 		
-		String Highscore = new String();
-		Highscore = username+" "+hud.getScore();
-		
-
+		//©TameBeets
+		try {
+			//First we create a file and writing objects
+			FileWriter fw = new FileWriter("leaderboard.csv", true);
+			BufferedWriter writer = new BufferedWriter(fw);
+			
+			writer.write(username + "," + hud.getScore());
+			writer.newLine();
+			writer.close();
+			
+			System.out.println("successfully sentScore(): " + username + ": " + hud.getScore());
+			
+			//Retrieve new data
+			//leaderboard.retrieveData();
+			hud.sortLeaderboard();
+			
+		} catch(IOException e) {
+			//Filewriting failed
+			System.out.println("sendScore() failed in GameOver.java: " + e.getMessage());
+			System.out.println(e.getStackTrace());
+		}
 	}
 
 	public void tick(){

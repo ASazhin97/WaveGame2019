@@ -5,6 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ public class Leaderboard {
 		this.hud = hud;
 		this.retryColor = Color.white;
 	}
-
+	
 	public void tick(){
 		handler.clearPlayer();
 	}
@@ -43,11 +47,62 @@ public class Leaderboard {
 		
 		ArrayList<String> leaderboard = hud.getLeaderboard();
 		
-		for (int i = 0; i < leaderboard.size(); i++){
-			text = leaderboard.get(i);
-			g.drawString(text,Game.WIDTH / 2 - getTextWidth(font2,text)/2, Game.HEIGHT/2 + (50*i));
+		if(leaderboard.size() > 0) {
+			for (int i = 0; i < leaderboard.size(); i++){
+				text = leaderboard.get(i);
+				g.drawString(text,Game.WIDTH / 2 - getTextWidth(font2,text)/2, Game.HEIGHT/2 + (50*i));
+			}
+		} else {
+			text = "No scores input yet!";
+			g.drawString(text,Game.WIDTH / 2 - getTextWidth(font2,text)/2, Game.HEIGHT/2 + (50));
 		}
+		
+		
 	}
+	
+	public Boolean retrieveData() {
+		//©TameBeets fixing the leaderboard
+	    //Try doing some file reading/writing
+	    try {
+	    	
+	    	File CSV = new File("leaderboard.csv");
+	        
+	    	//Returns TRUE if created new file, FALSE if file already exists
+	    	if(!CSV.createNewFile()) {
+	    		BufferedReader reader = new BufferedReader(new FileReader(CSV));
+	    		
+	    		String scores = new String();	//This will hold all of our scores
+	    		String row = new String();	//This will hold a single row in the CSV files
+	        	
+	           	while ((row = reader.readLine()) != null) {
+	           		//Add it to the scores string
+	           		scores += row + "\n";
+	           	}
+	            reader.close();	//Close file stream
+	            
+	            //Now check if we actually yielded any data
+	            if(scores.isEmpty()) {
+	            	hud.setHighScore(null);
+	            } else {
+	            	hud.setHighScore(scores);
+	            }
+	            
+	    	} else {
+	    		//File did not exist, but was created
+	    		System.out.println("Leaderboard.csv did not exist and was created, blank.");
+	    		hud.setHighScore(null);
+	    	}
+	    	
+	    	return true;
+	    	
+	    } catch (IOException e) {
+	    	System.out.println("IOException ERROR during initialization when checking for leaderboard.csv");
+	    	System.out.println(e.getMessage());
+	    	System.out.println(e.getStackTrace());
+	    	return false;
+	    }
+	}
+	
 
 	/**
 	 * Function for getting the pixel width of text
