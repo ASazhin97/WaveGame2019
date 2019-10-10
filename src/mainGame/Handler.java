@@ -77,21 +77,15 @@ public class Handler {
 	public void render(Graphics g) {
 		for (int i = 0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
-			if (tempObject != null) {
-				tempObject.render(g);
-			}
+			tempObject.render(g);
 		}
 		for (int i = 0; i < pickups.size(); i++) {
 			Pickup tempObject = pickups.get(i);
-			if (tempObject != null) {
-				tempObject.render(g);
-			}
+			tempObject.render(g);
 		}
 		for (int i = 0; i < coinPickups.size(); i++) {
 			Pickup tempObject = coinPickups.get(i);
-			if (tempObject != null) {
-				tempObject.render(g);
-			}
+			tempObject.render(g);
 		}
 	}
 
