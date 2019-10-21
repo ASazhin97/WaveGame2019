@@ -25,8 +25,8 @@ public class EnemyShooterBullet extends GameObject {
 	public void tick() {
 		this.x += velX;
 		this.y += velY;
-		// if (this.y <= 0 || this.y >= Game.HEIGHT - 40) velY *= -1;
-		// if (this.x <= 0 || this.x >= Game.WIDTH - 16) velX *= -1;
+		if (this.y <= 0 || this.y >= Game.HEIGHT - 40) velY *= -.5;
+		if (this.x <= 0 || this.x >= Game.WIDTH - 16) velX *= -.5;
 		handler.addObject(new Trail(x, y, ID.Trail, Color.yellow, 4, 4, 0.025, this.handler));
 		removeBullets();
 	}
@@ -44,7 +44,7 @@ public class EnemyShooterBullet extends GameObject {
 
 	public void render(Graphics g) {
 		g.setColor(Color.red);
-		g.fillRect((int) x, (int) y, 4, 4);
+		g.fillRect((int) x, (int) y, 4,4);
 	}
 
 	@Override
