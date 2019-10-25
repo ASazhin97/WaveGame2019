@@ -3,8 +3,10 @@ package mainGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
 
 /**
  * The main Heads Up Display of the game
@@ -184,6 +186,19 @@ public class HUD {
 		g.setFont(font);
 		g.setColor(scoreColor);
 		g.drawString("Score: " + score, 15, 115);
+		//A pop up message to let the player know they are able to purchase in the store.
+		
+		if (this.getScore() >= Math.min(cost, activeCost)) {
+			
+				String message = "PRESS P TO ACCESS THE STORE!";
+				g.setColor(Color.magenta);
+				g.drawString(message, 1400, 1000);
+				
+			
+		}
+		
+		
+		g.setColor(Color.GRAY);
 		g.drawString("Level: " + level, 15, 150);
 		g.drawString("Extra Lives: " + extraLives, 15, 185);
 		
@@ -200,6 +215,8 @@ public class HUD {
 			g.drawString("Level Skips: " + abilityUses, Game.WIDTH - 300, 64);
 		}
 	}
+
+	
 
 	public void setAbility(String ability) {
 		this.ability = ability;
@@ -223,6 +240,7 @@ public class HUD {
 
 	public void setScore(int score) {
 		this.score += score;
+	
 	}
 	
 	public double getHealth(){
@@ -232,6 +250,7 @@ public class HUD {
 	public int getScore() {
 		return score;
 	}
+	
 
 	public int getLevel() {
 		return level;

@@ -53,7 +53,7 @@ public class EnemyShooter extends GameObject {
 		if (timer <= 0) {
 			shoot();
 			updateEnemy();
-			timer = 10;
+			timer = 20;
 		}
 
 	}
@@ -65,8 +65,8 @@ public class EnemyShooter extends GameObject {
 				+ ((this.y - player.getY()) * (this.y - player.getY())));
 		////////////////////////////// pythagorean theorem
 		////////////////////////////// above//////////////////////////////////////////////////
-		bulletVelX = ((this.bulletSpeed / distance) * diffX); // numerator affects speed of enemy
-		bulletVelY = ((this.bulletSpeed / distance) * diffY);// numerator affects speed of enemy
+		bulletVelX = ((this.bulletSpeed / distance) * diffX) * (2* Math.random()); // numerator affects speed of enemy
+		bulletVelY = ((this.bulletSpeed / distance) * diffY) * (2* Math.random());// numerator affects speed of enemy
 
 		handler.addObject(
 				new EnemyShooterBullet(this.x, this.y, bulletVelX, bulletVelY, ID.EnemyShooterBullet, this.handler));

@@ -231,196 +231,178 @@ public class Pause {
             g.drawString("SHOP", 850, 980);
 		}
 
+		//SHOP STATE
         Font font2;
+        Font smallFont;
         if (this.game.gameState == STATE.PauseShop) {
-            font = new Font("impact", 1, 50);
-            font2 = new Font("impact",1,30);
-
-    g.setColor(Color.BLACK);
-    g.fillRect(0,0,1920,1280);
-    g.setFont(font);
-    g.setColor(Color.white);
-    g.drawString("Shop", 900, 70);
-
-    int rectW = 1895;
-    int rectH = 1020;
-    int rectY = rectH - 80;
-
-
-    g.setColor(Color.white);
-    g.drawRect(10, 80, (rectW / 2) - 15, (rectY / 2) - 15); // top left
-    g.drawRect((rectW / 2) + 5, 80, (rectW / 2) - 15, (rectY / 2) - 15); // top right
-    g.drawRect(10, 80 + (rectY / 2) + 5, (rectW / 2) - 15, (rectY / 2) - 15); // bottom left
-    g.drawRect((rectW / 2) + 5, 80 + (rectY / 2) + 5, (rectW / 2) - 15, (rectY / 2) - 15); // bottom right
-
-    g.setFont(font2);
-    g.drawString("Passive Abilities", 360, 110);
-    g.drawString("Active Abilities", 360, 585);
-    g.drawString("Passive Loadout", 1260, 110);
-    g.drawString("Description", 1290, 585);
-
-    //Back Button
-    g.drawRect(1795,950,80,50);
-    g.drawString("Back",1805,985);
-
-    //Current coins
-    g.drawImage(coin,8,8,40,40,null);
-    g.drawString("X" + hud.getScore(),33,48);
-
-
-
-    //Left side of the Shop
-
-    //Health Regeneration
-    g.drawImage(healthRegenIcon, 100, 125, 125, 125, null);//passive
-    g.drawImage(coin,100,260,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),125,300);
-    //Increase Max Health
-    g.drawImage(healthIncreaseIcon, 300, 125, 125, 125, null);//passive
-    g.drawImage(coin,300,260,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),325,300);
-    //Shrink Player Size
-    g.drawImage(shrinkIcon, 500, 125, 125, 125, null);//passive
-    g.drawImage(coin,500,260,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),525,300);
-    //Extra Life
-    g.drawImage(extraLifeIcon, 300, 325, 125, 125, null);//passive
-    g.drawImage(coin,300,460,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),325,500);
-    //Freeze Time
-    g.drawImage(freezeTimeIcon, 100, 650, 125, 125, null);//Active
-    g.drawImage(coin,100,785,40,40,null);
-    g.drawString("X" + (int)hud.getActiveCost(),125,825);
-    //Speed Boost
-    g.drawImage(speedBoostIcon, 100, 325, 125, 125, null);//passive
-    g.drawImage(coin,100,460,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),125,500);
-    //Damage Resistance
-    g.drawImage(damageResistanceIcon, 700, 125, 125, 125, null);//passive
-    g.drawImage(coin,700,260,40,40,null);
-    g.drawString("X" + (int)hud.getCost(),725,300);
-    //Clear Screen
-    g.drawImage(clearScreenIcon, 500, 650, 125, 125, null);//Active
-    g.drawImage(coin,500,785,40,40,null);
-    g.drawString("X" + (int)hud.getActiveCost(),525,825);
-
-    //Loadout
-    g.drawImage(healthRegenIcon, 1050, 125, 125, 125, null);
-    g.drawString("X"+hud.getNumRegen(),1050,300);
-    g.drawImage(damageResistanceIcon, 1650, 125, 125, 125, null);
-    g.drawString("X"+hud.getNumArmor(),1650,300);
-    g.drawImage(freezeTimeIcon, 1450, 325, 125, 125, null);
-    g.drawString("X"+hud.getNumFreeze(),1450,500);
-    g.drawImage(clearScreenIcon, 1650, 325, 125, 125, null);
-    g.drawString("X"+hud.getNumClear(),1650,500);
-    g.drawImage(speedBoostIcon, 1050, 325, 125, 125, null);
-    g.drawString("X"+hud.getNumSpeed(),1050,500);
-    g.drawImage(healthIncreaseIcon, 1250, 125, 125, 125, null);
-    g.drawString("X"+hud.getNumHealth(),1250,300);
-    g.drawImage(shrinkIcon, 1450, 125, 125, 125, null);
-    g.drawString("X"+hud.getNumShrink(),1450,300);
-    g.drawImage(extraLifeIcon, 1250, 325, 125, 125, null);
-    g.drawString("X"+hud.getExtraLives(),1250,500);
-
-    //Description
-    g.drawString(this.getDescription(),1000,650);
-
-        }
-			else if(game.gameState == STATE.Help2){
+        	
+        	int rectW = 1895;
+			int rectH = 1020;
+			int rowHeight = 70;
+			int rowWidth = 600;
+			int spaceBetweenRows = 4;			
+			int storeYOffset = 200;
+			boolean canAfford, canAffordActive = false;
 			
-			 font = new Font("impact", 1, 50);
-			font2 = new Font("impact", 1, 30);
+			if(hud.getScore()>=hud.getCost()) {
+				//There is enough money to buy this item, make button green
+				canAfford = true;
+			} else {
+				canAfford = false;
+			}
+			
+			if(hud.getScore()>=hud.getActiveCost()) {
+				//There is enough money to buy this item, make button green
+				canAffordActive = true;
+			} else {
+				canAffordActive = false;
+			}
+			
+			
+			//Fonts in this menu
+			font = new Font("impact", 1, 50);
+			font2 = new Font("Rockwell",1,30);
+			smallFont = new Font("Rockwell", 1, 20);
 
-
-
-			g.setColor(Color.BLACK);
+			g.setColor(new Color(200, 150, 100));
 			g.fillRect(0,0,1920,1280);
 			g.setFont(font);
 			g.setColor(Color.white);
+			g.drawString("The Shop", 800, 70);
 
-			g.drawString("Shop", 900, 70);
-
-			int rectW = 1895;
-			int rectH = 1020;
-			int rectY = rectH - 80;
-
-			g.setColor(Color.white);
-			g.drawRect(10, 80, (rectW / 2) - 15, (rectY / 2) - 15); // top left
-			g.drawRect((rectW / 2) + 5, 80, (rectW / 2) - 15, (rectY / 2) - 15); // top right
-			g.drawRect(10, 80 + (rectY / 2) + 5, (rectW / 2) - 15, (rectY / 2) - 15); // bottom left
-			g.drawRect((rectW / 2) + 5, 80 + (rectY / 2) + 5, (rectW / 2) - 15, (rectY / 2) - 15); // bottom right
-
-			g.setFont(font2);
-			g.drawString("Passive Abilities", 360, 110);
-			g.drawString("Active Abilities", 360, 585);
-			g.drawString("Passive Loadout", 1260, 110);
-			g.drawString("Description", 1290, 585);
+			g.drawString("Passive Abilities", 120, storeYOffset);
+			g.drawString("Active Abilities", (rectW / 2) + 120, storeYOffset);
 
 			//Back Button
-			g.drawRect(1795,950,80,50);
-			g.drawString("Back",1805,985);
+			g.setColor(Color.white);
+			g.drawString("Back",1755, 1000);
 
 			//Current coins
 			g.drawImage(coin,8,8,40,40,null);
 			g.drawString("X" + hud.getScore(),33,48);
+			
 
+			//Left side of the Shop - Passive items
+			for( int i = 0; i < 6; i++) {
+				//Set font to rockwell
+				g.setFont(font2);
+				
+				String upgradeName = "#ERR in Pause.java:285";
+				int quantity = 0;
+				
+				switch(i) {
+					case 0: 
+						upgradeName = "Increase Health";
+						quantity = hud.getNumHealth();
+						break;
+					case 1: 
+						upgradeName = "Increase Speed";
+						quantity = hud.getNumSpeed();
+						break;
+					case 2: 
+						upgradeName = "Increase Armor";
+						quantity = hud.getNumArmor();
+						break;
+					case 3: 
+						upgradeName = "Decrease Size";
+						quantity = hud.getNumShrink();
+						break;
+					case 4: 
+						upgradeName = "Health Regeneration";
+						quantity = hud.getNumRegen();
+						break;
+					case 5:
+						upgradeName = "Extra Life";
+						quantity = hud.getExtraLives();
+						break;
+				}
+				
+				//Create the row for the item name
+				g.setColor(new Color(160, 110, 60));
+				g.fillRect(120, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20 , rowWidth, rowHeight);	//+20 is to offset passive label
 
+				//Create the row for the price + buy button
+				//default color
+				g.setColor(new Color(60, 60, 60));	//grey
+				//If we have enough money, make the box green
+				if(canAfford) g.setColor(new Color(60, 160, 110)); //green
+				//Make the box itself
+				g.fillRect(120 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight);	//+20 is to offset passive label
+				
+				//Create the price label
+				//default color
+				g.setColor(new Color(230, 100, 100));	//red
+				//IF can afford, make text white
+				if(canAfford) g.setColor(Color.white); 	//white
+				//draw the price
+				g.setFont(smallFont);
+				g.drawString("BUY", 132 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
+				g.drawString("(" + (int)hud.getCost() + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.setFont(font2);
+				
+				//Create the quantity label
+				//Set font to ROCKWELL :)
+				g.setColor(Color.white);
+				g.drawString(upgradeName, 130, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 65);	//65 centers the text vertically
 
-			//Left side of the Shop
+				//Create the quant label
+				g.drawString("x" + quantity, 65 + rowWidth, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 65)); //65 aligns right && 65 centers the text vertically
+			}
+			
+			
+			//Right side of the Shop - Active items
+			for( int i = 0; i < 2; i++) {
+				//Set font to rockwell
+				g.setFont(font2);
+				
+				String upgradeName = "#ERR in Pause.java:285";
+				int quantity = 0;
+				
+				switch(i) {
+					case 0: 
+						upgradeName = "Clear Screen";
+						quantity = hud.getNumClear();
+						break;
+					case 1: 
+						upgradeName = "Freeze Time";
+						quantity = hud.getNumFreeze();
+						break;
+				}
+				
+				//Create the row for the item name
+				g.setColor(new Color(160, 110, 60));
+				g.fillRect((rectW / 2), (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20 , rowWidth, rowHeight);	//+20 is to offset passive label
 
-			//Health Regeneration
-			g.drawImage(healthRegenIcon, 100, 125, 125, 125, null);//passive
-			g.drawImage(coin,100,260,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),125,300);
-			//Increase Max Health
-			g.drawImage(healthIncreaseIcon, 300, 125, 125, 125, null);//passive
-			g.drawImage(coin,300,260,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),325,300);
-			//Shrink Player Size
-			g.drawImage(shrinkIcon, 500, 125, 125, 125, null);//passive
-			g.drawImage(coin,500,260,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),525,300);
-			//Extra Life
-			g.drawImage(extraLifeIcon, 300, 325, 125, 125, null);//passive
-			g.drawImage(coin,300,460,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),325,500);
-			//Freeze Time
-			g.drawImage(freezeTimeIcon, 100, 650, 125, 125, null);//Active
-			g.drawImage(coin,100,785,40,40,null);
-			g.drawString("X" + (int)hud.getActiveCost(),125,825);
-			//Speed Boost
-			g.drawImage(speedBoostIcon, 100, 325, 125, 125, null);//passive
-			g.drawImage(coin,100,460,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),125,500);
-			//Damage Resistance
-			g.drawImage(damageResistanceIcon, 700, 125, 125, 125, null);//passive
-			g.drawImage(coin,700,260,40,40,null);
-			g.drawString("X" + (int)hud.getCost(),725,300);
-			//Clear Screen
-			g.drawImage(clearScreenIcon, 500, 650, 125, 125, null);//Active
-			g.drawImage(coin,500,785,40,40,null);
-			g.drawString("X" + (int)hud.getActiveCost(),525,825);
+				//Create the row for the price + buy button
+				//default color
+				g.setColor(new Color(60, 60, 60));	//grey
+				//If we have enough money, make the box green
+				if(canAffordActive) g.setColor(new Color(60, 160, 110)); //green
+				//Make the box itself
+				g.fillRect((rectW / 2) + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight);	//+20 is to offset passive label
+				
+				//Create the price label
+				//default color
+				g.setColor(new Color(230, 100, 100));	//red
+				//IF can afford, make text white
+				if(canAffordActive) g.setColor(Color.white); 	//white
+				//draw the price
+				g.setFont(smallFont);
+				g.drawString("BUY", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
+				g.drawString("(" + (int)hud.getActiveCost() + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.setFont(font2);
+				
+				//Create the quantity label
+				//Set font to ROCKWELL :)
+				g.setColor(Color.white);
+				g.drawString(upgradeName, (rectW / 2) + 10, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 65);	//65 centers the text vertically
 
-			//Loadout
-			g.drawImage(healthRegenIcon, 1050, 125, 125, 125, null);
-			g.drawString("X"+hud.getNumRegen(),1050,300);
-			g.drawImage(damageResistanceIcon, 1650, 125, 125, 125, null);
-			g.drawString("X"+hud.getNumArmor(),1650,300);
-			g.drawImage(freezeTimeIcon, 1450, 325, 125, 125, null);
-			g.drawString("X"+hud.getNumFreeze(),1450,500);
-			g.drawImage(clearScreenIcon, 1650, 325, 125, 125, null);
-			g.drawString("X"+hud.getNumClear(),1650,500);
-			g.drawImage(speedBoostIcon, 1050, 325, 125, 125, null);
-			g.drawString("X"+hud.getNumSpeed(),1050,500);
-			g.drawImage(healthIncreaseIcon, 1250, 125, 125, 125, null);
-			g.drawString("X"+hud.getNumHealth(),1250,300);
-			g.drawImage(shrinkIcon, 1450, 125, 125, 125, null);
-			g.drawString("X"+hud.getNumShrink(),1450,300);
-			g.drawImage(extraLifeIcon, 1250, 325, 125, 125, null);
-			g.drawString("X"+hud.getExtraLives(),1250,500);
-
-			//Description
-			g.drawString(this.getDescription(),1000,650);
+				//Create the quant label
+				g.drawString("x" + quantity, (rectW / 2)  + rowWidth - 60, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 65)); //65 aligns right && 65 centers the text vertically
+			}
+			
+		    //Description
+		    g.drawString(this.getDescription(),120,950);
 
         } else if (this.game.gameState == STATE.PauseH1) {
             font = new Font("impact", 1, 50);
