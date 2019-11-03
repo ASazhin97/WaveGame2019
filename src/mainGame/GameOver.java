@@ -75,6 +75,8 @@ public class GameOver {
 	public void tick(){
 		handler.clearPlayer();
 		handler.clearCoins();
+		handler.clearEnemies();
+		handler.clearUpgrades();
 		flash();
 	}
 

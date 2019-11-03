@@ -55,9 +55,10 @@ public class MouseListener extends MouseAdapter {
 			hud.health = 100;
 			hud.setScore(0);
 			hud.setLevel(1);
+			spawner.restart();
 			spawnerE.restart();
 			spawnerE.addLevels();
-			spawner.restart();
+			
 			spawner.addLevels();
 			spawner2.restart();
 			spawner2.addLevels();
