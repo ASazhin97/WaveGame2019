@@ -199,27 +199,25 @@ public class Pause {
 	}
 	
 	public void render(Graphics g){
-		Font font;
-		if(game.gameState == STATE.Pause){
-			font = new Font("Amoebic", 1, 100);
-			
-			
+		Font bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 95);
+		Font smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 50);
+		if(game.gameState == STATE.Pause){	
 			g.drawImage(buttonImg, 550, 100, 900, 200, null);
 			
 			g.setColor(Color.WHITE);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.drawString("MAIN", 850, 230);
 			
 			g.drawImage(buttonImg, 550, 350, 900, 200, null);
 			
 			g.setColor(Color.WHITE);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.drawString("HELP", 850, 480);
 			
 			g.drawImage(buttonImg, 550, 600, 900, 200, null);
 			
 			g.setColor(Color.WHITE);
-			g.setFont(font);
+			g.setFont(bigFont);
             if (!this.gameSaved) {
                 g.drawString("SAVE", 850, 730);
 			} else {
@@ -227,13 +225,14 @@ public class Pause {
 			}
 			g.drawImage(buttonImg, 550, 850, 900, 200, null);
 			g.setColor(Color.WHITE);
-			g.setFont(font);
+			g.setFont(bigFont);
             g.drawString("SHOP", 850, 980);
 		}
 
 		//SHOP STATE
-        Font font2;
-        Font smallFont;
+		bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+		smallFont = FontHandler.setSize(FontHandler.HEADER_FONT, 20);
+		Font mediumFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
         if (this.game.gameState == STATE.PauseShop) {
         	
         	int rectW = 1895;
@@ -257,16 +256,10 @@ public class Pause {
 			} else {
 				canAffordActive = false;
 			}
-			
-			
-			//Fonts in this menu
-			font = new Font("impact", 1, 50);
-			font2 = new Font("Rockwell",1,30);
-			smallFont = new Font("Rockwell", 1, 20);
 
 			g.setColor(new Color(200, 150, 100));
 			g.fillRect(0,0,1920,1280);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("The Shop", 800, 70);
 
@@ -285,7 +278,7 @@ public class Pause {
 			//Left side of the Shop - Passive items
 			for( int i = 0; i < 6; i++) {
 				//Set font to rockwell
-				g.setFont(font2);
+				g.setFont(mediumFont);
 				
 				String upgradeName = "#ERR in Pause.java:285";
 				int quantity = 0;
@@ -338,7 +331,7 @@ public class Pause {
 				g.setFont(smallFont);
 				g.drawString("BUY", 132 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
 				g.drawString("(" + (int)hud.getCost() + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
-				g.setFont(font2);
+				g.setFont(mediumFont);
 				
 				//Create the quantity label
 				//Set font to ROCKWELL :)
@@ -353,7 +346,7 @@ public class Pause {
 			//Right side of the Shop - Active items
 			for( int i = 0; i < 2; i++) {
 				//Set font to rockwell
-				g.setFont(font2);
+				g.setFont(mediumFont);
 				
 				String upgradeName = "#ERR in Pause.java:285";
 				int quantity = 0;
@@ -390,7 +383,7 @@ public class Pause {
 				g.setFont(smallFont);
 				g.drawString("BUY", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
 				g.drawString("(" + (int)hud.getActiveCost() + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
-				g.setFont(font2);
+				g.setFont(mediumFont);
 				
 				//Create the quantity label
 				//Set font to ROCKWELL :)
@@ -405,15 +398,13 @@ public class Pause {
 		    g.drawString(this.getDescription(),120,950);
 
         } else if (this.game.gameState == STATE.PauseH1) {
-            font = new Font("impact", 1, 50);
-            font2 = new Font("impact", 1, 30);
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,1920,1280);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Help", 900, 70);
 
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.drawString("Waves: Simply use Arrow keys or WASD to move and avoid enemies.", 40, 300);
 			g.drawString("One you avoid them long enough, a new batch will spawn in! Defeat each boss to win!", 40, 340);
 			
@@ -422,7 +413,7 @@ public class Pause {
 			
 			g.drawString("Click Next to see Enemy and Boss Summaries", 40, 800);
 
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.setColor(Color.white);
 			
 			g.drawRect(1600, 870, 200, 65);
@@ -431,17 +422,15 @@ public class Pause {
 			g.drawRect(850, 870, 200, 64);
 			g.drawString("Main", 920, 910);
 		} else if (game.gameState == STATE.PauseH2){
-			font = new Font("impact", 1, 50);
-			font2 = new Font("impact", 1, 30);
 			
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,1920,1280);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Different Enemies", 800, 70);
 			
 			
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.drawString("1. Green. These will", 40, 300);
 			g.drawString("follow you where ever", 40, 340);
 			g.drawString("you are on screen.", 40, 380);
@@ -463,7 +452,7 @@ public class Pause {
 			g.drawString("will appear from the side", 1500, 340);
 			g.drawString("they will jump out from", 1500, 380);
 			
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);
@@ -481,17 +470,15 @@ public class Pause {
 			g.drawImage(enemy4Img, 1100, 440, 250, 250, null);
 			g.drawImage(enemy5Img, 1500, 440, 300, 250, null);
 		} else if (game.gameState == STATE.PauseH3){
-			font = new Font("impact", 1, 50);
-			font2 = new Font("impact", 1, 30);
 			
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,1920,1280);
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("The Bosses", 830, 70);
 			
 			
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.drawString("The Red Boss. Dodge the", 40, 300);
 			g.drawString("explosive bullets that he", 40, 340);
 			g.drawString("throws and stay below the line.", 40, 380);
@@ -504,7 +491,7 @@ public class Pause {
 			
 			g.drawImage(boss2Img, 600, 440, 250, 250, null);
 			
-			g.setFont(font2);
+			g.setFont(mediumFont);
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);

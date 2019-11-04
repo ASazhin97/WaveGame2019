@@ -76,8 +76,8 @@ public class GameWon {
 	}
 
 	public void render(Graphics g) {
-		Font font = new Font("Amoebic", 1, 100);
-		Font font2 = new Font("Amoebic", 1, 60);
+		Font font = FontHandler.setSize(FontHandler.BODY_FONT, 95);
+		Font font2 = FontHandler.setSize(FontHandler.BODY_FONT, 50);
 		g.setFont(font);
 		text = "CONGRATS you WON the Game!!!";
 		g.drawString(text, Game.WIDTH / 2 - getTextWidth(font, text) / 2, Game.HEIGHT / 2 - 150);

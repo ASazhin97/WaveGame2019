@@ -3,7 +3,7 @@ package mainGame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import com.sun.glass.ui.EventLoop.State;
+//import com.sun.glass.ui.EventLoop.State;
 
 import mainGame.Game.STATE;
 
