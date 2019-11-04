@@ -1,6 +1,7 @@
 package mainGame;
 
 import java.awt.Image;
+
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class Spawn10to20 {
 	public static int LEVEL_SET_2_RESET = 0;
 	private int levelsRemaining = 10;
 	public static boolean spawning = true;
+	private int randnumber;
+	private Random r1 = new Random();
+
+
 
 	public Spawn10to20(Handler handler, HUD hud, Spawn1to10 spawner, Game game) {
 		restart();
@@ -62,8 +67,9 @@ public class Spawn10to20 {
 
 	public void tick() {
 		
-		handler.addPickupCoin(new PickupCoin(100, 100, ID.PickupCoin, "images/PickupCoin.PNG", handler, game ));
-		
+		//handler.addPickupCoin(new PickupCoin(100, 100, ID.PickupCoin, "images/PickupCoin.PNG", handler, game ));
+		randnumber = getRandomInteger(100, 1);
+
 		if (game.getPlayerXInt() > (Game.WIDTH - Game.WIDTH/(6 + (2/3)) - 5)) {
 			randx = r.nextInt((Game.WIDTH - (Game.WIDTH - game.getPlayerXInt())) - Game.WIDTH/(6 + (2/3)));
 		} else if (game.getPlayerXInt() < Game.WIDTH/(6 + (2/3)) + 5) {
@@ -88,10 +94,10 @@ public class Spawn10to20 {
 			}
 		}
 		
-		// if(LEVEL_SET_2_RESET < 1){
-		// restart();
-		// LEVEL_SET_2_RESET ++;
-		// }
+		 if(LEVEL_SET_2_RESET < 1){
+		 restart();
+		 LEVEL_SET_2_RESET ++;
+		 }
 		if (levelNumber <= 0) {
 			levelTimer--;
 			if (tempCounter < 1) {
@@ -108,6 +114,10 @@ public class Spawn10to20 {
 				levelNumber = levels.get(index);
 			}
 
+		}
+		if (levelNumber <= 20 && randnumber == 10) {
+			handler.addPickup(new PickupCoin(getRandomInteger(2000, 1),
+			getRandomInteger(1000, 1), ID.PickupCoin, "images/PickupCoin.PNG", handler, game ));
 		}
 
 		else if (levelNumber == 1) {
@@ -500,7 +510,11 @@ public class Spawn10to20 {
 			levelNumber = levels.get(index);
 		}
 	}
-	
+public static int getRandomInteger(int maximum, int minimum){
+		
+		return ((int) (Math.random()*(maximum - minimum))) + minimum;
+		
+		}
 	public static void setSpawn(boolean x) {
 		spawning = x;
 	}
