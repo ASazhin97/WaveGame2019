@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.Thread.State;
+import java.util.Random;
 import java.util.Scanner;
 import java.net.MalformedURLException;
 
@@ -71,6 +72,8 @@ public class Game extends Canvas implements Runnable {
 	private Midi ShopMIDIPlayer;
 	float originalTempoGAME;
 	private Game game;
+	private Color bgColor = Color.black;
+	private Color[] bgColorArr = new Color[11];
 	
 	private File _inFile;
 	private Scanner _fileInput;
@@ -124,7 +127,18 @@ public class Game extends Canvas implements Runnable {
 		upgradeMidiPlayer = new Midi();
 		ShopMIDIPlayer = new Midi();
 		new Window((int) drawWidth, (int) drawHeight, "Wave Game ", this);
-		
+
+		bgColorArr[0] = new Color(175, 120, 120);
+		bgColorArr[1] = new Color(125, 175, 120);
+		bgColorArr[2] = new Color(165, 120, 175);
+		bgColorArr[3] = new Color(110, 120, 170);
+		bgColorArr[4] = new Color(170, 110, 150);
+		bgColorArr[5] = new Color(95, 170, 170);
+		bgColorArr[6] = new Color(95, 170, 135);
+		bgColorArr[7] = new Color(170, 140, 95);
+		bgColorArr[8] = new Color(50, 50, 50);
+		bgColorArr[9] = new Color(140, 95, 170);
+		bgColorArr[10] = new Color(95, 170, 150);
 		
 		leaderboard.retrieveData();
 		  
@@ -486,7 +500,7 @@ public class Game extends Canvas implements Runnable {
 		///////// Draw things bellow this/////////////
 		g.scale(scaleFactor, scaleFactor);
 
-		g.setColor(Color.black);
+		g.setColor(bgColor);
 		g.fillRect(0, 0, (int) WIDTH, (int) HEIGHT);
 
 		handler.render(g); // ALWAYS RENDER HANDLER, NO MATTER IF MENU OR GAME
@@ -563,6 +577,11 @@ public class Game extends Canvas implements Runnable {
 	
 	public GameOver getGameOver(){
 		return gameOver;
+	}
+	
+	public void setRandomBg() {
+		int rand = new Random().nextInt(10);	//Random number between 0 and 10
+		bgColor = bgColorArr[rand];
 	}
 	
 	public static void main(String[] args) throws MalformedURLException {
