@@ -1,7 +1,6 @@
 package mainGame;
   
 import java.awt.Graphics;
-
 import java.awt.Graphics2D;
 import java.lang.Thread.State;
 import java.util.ArrayList;
