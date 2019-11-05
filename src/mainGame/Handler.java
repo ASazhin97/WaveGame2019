@@ -132,6 +132,16 @@ public class Handler {
 	/**
 	 * Clears all entities that have an ID of some sort of enemy
 	 */
+	//Clears only enemies not bosses or players.
+	public void clearEnemiesAbility() {
+		for(int i = 0; i < this.object.size(); i++) {
+			GameObject tempObject = this.object.get(i);
+			if (tempObject.getId() != ID.Player && tempObject.getId() != ID.BossEye && tempObject.getId() != ID.EnemyBoss) {
+				this.removeObject(tempObject);
+				i--;
+			}
+		}
+	}
 	public void clearEnemies() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);

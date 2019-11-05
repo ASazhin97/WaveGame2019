@@ -34,6 +34,7 @@ public class Player extends GameObject {
 	private String hitsoundMIDIMusic = "HitsoundPart2.mid";
 	private String pickupcoinMIDIMusic = "pickupcoin.mid";
 	private boolean wasHit;
+	private int hitColorCooldown = 100;
 	
 
 	public Player(double x, double y, ID id, Handler handler, HUD hud, Game game) {
@@ -53,13 +54,15 @@ public class Player extends GameObject {
 		this.y += velY;
 		x = Game.clamp(x, 0, Game.WIDTH - 38);
 		y = Game.clamp(y, 0, Game.HEIGHT - 60);
-		// add the trail that follows it
-		handler.addObject(new Trail(x, y, ID.Trail, Color.white, playerWidth, playerHeight, 0.05, this.handler));
+		// add the trail that follows it and gets shorter has health decreases
+		handler.addObject(new Trail(x, y, ID.Trail, Color.white, playerWidth, playerHeight, 5 / hud.getHealth(), this.handler));
+		
 		collision();
 		if (tempInvincible > 0) {
 			tempInvincible--;
 		}
 		if (wasHit == true) {
+			//TODO: Add particle effect
 			try {
 				hitsoundMIDIPlayer.PlayMidi(hitsoundMIDIMusic);
 			}

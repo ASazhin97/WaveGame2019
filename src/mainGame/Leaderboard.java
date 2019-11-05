@@ -38,23 +38,23 @@ public class Leaderboard {
 	}
 
 	public void render(Graphics g) {
-		Font font = new Font("Amoebic", 1, 100);
-		Font font2 = new Font("Amoebic", 1, 40);
-		g.setFont(font);
+		Font bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 96);
+		Font smallFont = FontHandler.setSize(FontHandler.HEADER_FONT, 35);
+		g.setFont(bigFont);
 		text = "Leaderboard";
-		g.drawString(text, Game.WIDTH / 2 - getTextWidth(font, text) / 2, Game.HEIGHT / 2 - 150);
-		g.setFont(font2);
+		g.drawString(text, Game.WIDTH / 2 - getTextWidth(bigFont, text) / 2, Game.HEIGHT / 2 - 150);
+		g.setFont(smallFont);
 		
 		ArrayList<String> leaderboard = hud.getLeaderboard();
 		
 		if(leaderboard.size() > 0) {
 			for (int i = 0; i < leaderboard.size(); i++){
 				text = leaderboard.get(i);
-				g.drawString(text,Game.WIDTH / 2 - getTextWidth(font2,text)/2, Game.HEIGHT/2 + (50*i));
+				g.drawString(text,Game.WIDTH / 2 - getTextWidth(smallFont,text)/2, Game.HEIGHT/2 + (50*i));
 			}
 		} else {
 			text = "No scores input yet!";
-			g.drawString(text,Game.WIDTH / 2 - getTextWidth(font2,text)/2, Game.HEIGHT/2 + (50));
+			g.drawString(text,Game.WIDTH / 2 - getTextWidth(smallFont,text)/2, Game.HEIGHT/2 + (50));
 		}
 		
 		

@@ -30,9 +30,9 @@ public class Upgrades {
 		this.spawner = spawner;
 		this.spawner2 = spawner2;
 	}
-
+	
 	public void clearScreenAbility() {
-		handler.clearEnemies();
+		handler.clearEnemiesAbility();
 		hud.setAbilityUses(-1);
 		if (hud.getAbilityUses() == 0) {
 			ability = "";

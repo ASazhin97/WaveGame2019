@@ -162,7 +162,7 @@ public class HUD {
 	public void render(Graphics g) {
 		
 		
-		Font font = new Font("Amoebic", 1, 30);
+		Font font = FontHandler.HEADER_FONT;
 		g.setColor(Color.GRAY);
 		g.fillRect(15, 15, healthBarWidth, 64);
 		g.setColor(new Color(75, (int) greenValue, 0));
