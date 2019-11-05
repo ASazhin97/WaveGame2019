@@ -117,84 +117,51 @@ public class Menu {
 	}
 
 	public void render(Graphics g) {
+		Font bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 100);
+		Font smallFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
 		if (game.gameState == STATE.Menu) {
 			g.drawImage(img, 0, 0, Game.WIDTH, Game.HEIGHT, null);
 			handler.render(g);
-			Font font = new Font("Amoebic", 1, 100);
-			Font font2 = new Font("Amoebic", 1, 60);
 
-			g.setFont(font);
-			g.setColor(Color.white);
-			g.drawString("Game Modes", 1140, 200);
-
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Wave Game: B4&Aftr.io", 75, 100);
+			g.drawString("Game Modes", 1140, 200);
 
-			g.setColor(Color.white);
+			
+			g.setFont(smallFont);
+			
 			g.drawRect(1050, 300, 350, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Waves",1130, 510);
 			
-			g.setColor(Color.white);
 			g.drawRect(1450, 300, 350, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Easy Mode",1470, 510);
 			
-			g.setColor(Color.white);
 			g.drawRect(1050, 735, 750, 250);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Leaderboard",1250, 900);
+
 			
-
-			/*g.setColor(Color.white);
-			g.drawRect(1440, 135, 400, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
-			g.drawString("Bosses", 1550, 215);*/
-
-			/*g.setColor(Color.white);
-			g.drawRect(990, 585, 400, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
-			g.drawString("Attack", 1095, 665);*/
-
-			/*g.setColor(Color.white);
-			g.drawRect(1440, 585, 400, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
-			g.drawString("Hunger", 1550, 665);*/
-
-
-			g.setColor(Color.white);
+			g.setFont(bigFont);
+			
 			g.drawRect(80, 135, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Help", 400, 280);
 
-			g.setColor(Color.white);
 			g.drawRect(80, 435, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Credits", 340, 600);
 
-			g.setColor(Color.white);
 			g.drawRect(80, 735, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Quit", 400, 900);
+			
 		} else if (game.gameState == STATE.Help) { // if the user clicks on "help"
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
 
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
+			
 			g.drawString("Help", 900, 70);
 
-			g.setFont(font2);
+			g.setFont(smallFont);
 			g.drawString("Waves: Simply use Arrow keys or WASD to move and avoid enemies.", 40, 200);
 			g.drawString("One you avoid them long enough, a new batch will spawn in! Defeat each boss to win!", 40, 240);
 			
@@ -203,25 +170,24 @@ public class Menu {
 			
 			g.drawString("Click Next to see Enemy and Boss Summeries", 40, 800);
 
-			g.setFont(font2);
-			g.setColor(Color.white);
 			
 			g.drawRect(1600, 870, 200, 65);
 			g.drawString("Next", 1650, 910);
 			
 			g.drawRect(850, 870, 200, 64);
 			g.drawString("Main", 920, 910);
+			
 		} else if (game.gameState == STATE.Help2){ //second help page
+
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
 			
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
-			
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Different Enemies", 800, 70);
 			
 			
-			g.setFont(font2);
+			g.setFont(smallFont);
 			g.drawString("1. Green. These will", 40, 200);
 			g.drawString("follow you where ever", 40, 240);
 			g.drawString("you are on screen.", 40, 280);
@@ -243,7 +209,7 @@ public class Menu {
 			g.drawString("will appear from the side", 1500, 240);
 			g.drawString("they will jump out from", 1500, 280);
 			
-			g.setFont(font2);
+			//Navigation
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);
@@ -264,16 +230,16 @@ public class Menu {
 			
 			
 		} else if (game.gameState == STATE.Help3){
+
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
 			
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
-			
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("The Bosses", 830, 70);
 			
 			
-			g.setFont(font2);
+			g.setFont(smallFont);
 			g.drawString("The Red Boss. Dodge the", 40, 200);
 			g.drawString("explosive bullets that he", 40, 240);
 			g.drawString("throws and stay below the line.", 40, 280);
@@ -286,7 +252,7 @@ public class Menu {
 			
 			g.drawImage(boss2Img, 600, 340, 250, 250, null);
 			
-			g.setFont(font2);
+			//Navigation
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);

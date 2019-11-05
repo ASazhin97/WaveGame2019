@@ -51,7 +51,7 @@ public class LevelText extends GameObject {
 
 		
 		if (text == "Controls") {
-			Font font = new Font("Amoebic", 1, 25);
+			Font font = FontHandler.setSize(FontHandler.BODY_FONT, 25);
 			g.setFont(font);
 			g.setColor(Color.CYAN);// set the new random color
 			g.fillRect(1586, 10, 300, 300);
@@ -62,13 +62,13 @@ public class LevelText extends GameObject {
 			g.drawString("right", 1810, 155);
 			g.drawString("up", 1710, 90);
 			g.drawString("Down", 1695, 225);
-			Font font2 = new Font("Amoebic", 1, 18);
+			Font font2 = FontHandler.setSize(FontHandler.BODY_FONT, 18);
 			g.setFont(font2);
 			g.drawString("Pause Menu: PRESS P", 1588, 265);
 			g.drawString("Activate Power-up: PRESS ENTER", 1588, 285);
 		}
 		else {
-			Font font = new Font("Amoebic", 1, 125);
+			Font font = FontHandler.setSize(FontHandler.HEADER_FONT, 125);
 		g.setFont(font);
 		g.setColor(color[index]);// set the new random color
 		g.drawString(this.text, Game.WIDTH / 2 - getTextWidth(font, this.text) / 2, (int) this.y);
