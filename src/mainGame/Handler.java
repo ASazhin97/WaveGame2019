@@ -20,6 +20,7 @@ public class Handler {
 	private static int timer = 0;
 	private static boolean freeze;
 	private Pickup pickupObject;
+	private Upgrades upgrades;
 
 	/**
 	 * Updates each entity in the game by looping through each ArrayList and calling
@@ -31,14 +32,14 @@ public class Handler {
 			GameObject tempObject = object.get(i);
 			if (tempObject.getId() == ID.Player || tempObject.getId() == ID.Trail
 					|| tempObject.getId() == ID.EnemyBurstWarning) {// we don't want these to ever be frozen by the
-																	// Screen Freeze ability
+				// Screen Freeze ability
 
 				// Every GameObject has a tick method, so this effectively updates every single
 				// object
 				tempObject.tick();
 			} else {
 				if (timer == 0) {// if Screen Freeze power-up is unlocked, enemy ID's will pause for the length
-									// of the timer, and not update
+					// of the timer, and not update
 					tempObject.tick();
 					Spawn1to10.setSpawn(true);
 					Spawn10to20.setSpawn(true);
@@ -52,12 +53,12 @@ public class Handler {
 			}
 		}
 		for (int i = 0; i < pickups.size(); i++) {
-			 Pickup pickupObject = pickups.get(i);
+			Pickup pickupObject = pickups.get(i);
 
 			// Every Pickup has a tick method, so this effectively updates every single
 			// object
 			pickupObject.tick();
-			
+
 		}
 		for (int i = 0; i < coinPickups.size(); i++) {
 			PickupCoin coinObject = coinPickups.get(i);
@@ -114,7 +115,7 @@ public class Handler {
 	public void removePickup(Pickup object) {
 		this.pickups.remove(object);
 	}
-	
+
 	public void addPickupCoin(PickupCoin object) {
 		this.pickups.add(object);
 	}
@@ -123,11 +124,16 @@ public class Handler {
 		this.coinPickups.remove(object);
 	}
 	public double getpickupX() {
-			return pickupObject.getX();
+		return pickupObject.getX();
 	}
 	public double getpickupY() {
 		return pickupObject.getY();
-}
+	}
+
+	//Create a reference to upgrades
+	public void setUpgrades(Upgrades upgrades) {
+		this.upgrades = upgrades;
+	}
 
 	/**
 	 * Clears all entities that have an ID of some sort of enemy
@@ -160,7 +166,7 @@ public class Handler {
 			}
 		}
 	}
-	
+
 	public void clearLevelText() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);
@@ -170,6 +176,10 @@ public class Handler {
 		}
 	}
 	
+	public void clearUpgrades() {
+		upgrades.resetUpgrades();
+	}
+
 
 	/**
 	 * Clears all entities that have an ID of player
@@ -180,15 +190,15 @@ public class Handler {
 			if (tempObject.getId() == ID.Player) {
 				this.removeObject(tempObject);
 				i--; // Removing shrinks the array by 1, causing the loop to skip a player (should
-						// there be more than one)
+				// there be more than one)
 			}
 		}
 	}
-	
+
 	public static int getTimer() {
 		return timer;
 	}
-	
+
 	public static boolean getFreeze() {
 		return freeze;
 	}

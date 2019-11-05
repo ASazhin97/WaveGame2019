@@ -731,6 +731,8 @@ public static int getRandomInteger(int maximum, int minimum){
 		levelTimer = 150;
 		levelsRemaining = 10;
 		index = r.nextInt(levelsRemaining);
+		levels.clear();
+		addLevels();
 	}
 	
 	public int getLevelNumber(){

@@ -29,6 +29,8 @@ public class Upgrades {
 		this.spawnerE = spawnerE;
 		this.spawner = spawner;
 		this.spawner2 = spawner2;
+		
+		handler.setUpgrades(this);
 	}
 	
 	public void clearScreenAbility() {
@@ -177,6 +179,7 @@ public class Upgrades {
 		hud.resetHealth();
 		hud.resetRegen();
 		hud.setExtraLives(0);
+		hud.reset();
 		player.setPlayerSize(32);
 		upgradeScreen.resetPaths();
 	}

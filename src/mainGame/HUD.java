@@ -157,6 +157,16 @@ public class HUD {
 		health = 100;
 		greenValue = 255;
 		healthBarModifier = 2;
+		numFreeze=0;
+		numRegen=0;
+		numHealth=0;
+		numSpeed=0;
+		numShrink=0;
+		numArmor=0;
+		numClear=0;
+		abilityUses = 0;
+		score = 00000000000;
+		level = 0;
 	}
 
 	public void render(Graphics g) {
