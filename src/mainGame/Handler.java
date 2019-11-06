@@ -21,6 +21,7 @@ public class Handler {
 	private static int timer = 0;
 	private static boolean freeze;
 	private Pickup pickupObject;
+	private Upgrades upgrades;
 
 	// Methods 
 	// Used to define time in the game 
@@ -52,10 +53,10 @@ public class Handler {
 					freeze = true;
 			}
 		}
-		
+
 		// Creates an array that holds all pick - ups 
 		for (int i = 0; i < pickups.size(); i++) {
-			 Pickup pickupObject = pickups.get(i);
+			Pickup pickupObject = pickups.get(i);
 			// Constantly updates states of all objects in the array 
 			pickupObject.tick();
 		}
@@ -75,17 +76,23 @@ public class Handler {
 		// For each object, draw it when the object is called 
 		for (int i = 0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
-			tempObject.render(g);
+			if (tempObject != null) {
+				tempObject.render(g);
+			}
 		}
 		// For each pick - up, draw it when the object is called 
 		for (int i = 0; i < pickups.size(); i++) {
 			Pickup tempObject = pickups.get(i);
-			tempObject.render(g);
+			if (tempObject != null) {
+				tempObject.render(g);
+			}
 		}
 		// For each coin pick - up, draw it when the object is called 
 		for (int i = 0; i < coinPickups.size(); i++) {
 			Pickup tempObject = coinPickups.get(i);
-			tempObject.render(g);
+			if (tempObject != null) {
+				tempObject.render(g);
+			}
 		}
 	}
 
@@ -114,7 +121,6 @@ public class Handler {
 	public void removePickup(Pickup object) {
 		this.pickups.remove(object);
 	}
-	
 	// Used to add pick - up coins to the game 
 	public void addPickupCoin(PickupCoin object) {
 		this.pickups.add(object);
@@ -124,18 +130,34 @@ public class Handler {
 	public void removePickupCoin(PickupCoin object) {
 		this.coinPickups.remove(object);
 	}
-	
+
 	// Used to get the horizontal position of the pick - up
 	public double getpickupX() {
-			return pickupObject.getX();
+		return pickupObject.getX();
 	}
-	
+
 	// Used to get the vertical position of the pick - up
 	public double getpickupY() {
 		return pickupObject.getY();
-}
+	}
 
-	// Used to clear all enemies from the screen and in the handler 
+	//Create a reference to upgrades
+	public void setUpgrades(Upgrades upgrades) {
+		this.upgrades = upgrades;
+	}
+	/**
+	 * Clears all entities that have an ID of some sort of enemy
+	 */
+	//Clears only enemies not bosses or players.
+	public void clearEnemiesAbility() {
+		for(int i = 0; i < this.object.size(); i++) {
+			GameObject tempObject = this.object.get(i);
+			if (tempObject.getId() != ID.Player && tempObject.getId() != ID.BossEye && tempObject.getId() != ID.EnemyBoss) {
+				this.removeObject(tempObject);
+				i--;
+			}
+		}
+	}
 	public void clearEnemies() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);
@@ -147,7 +169,7 @@ public class Handler {
 			}
 		}
 	}
-	
+
 	// Used to clear the coins from the screen 
 	public void clearCoins() {
 		for (int i = 0; i < pickups.size(); i++) {
@@ -160,7 +182,6 @@ public class Handler {
 			}
 		}
 	}
-	
 	// Used to clear the level text from the screen 
 	public void clearLevelText() {
 		for (int i = 0; i < this.object.size(); i++) {
@@ -171,29 +192,38 @@ public class Handler {
 			}
 		}
 	}
-	
+
 	// Used to clear the player from the screen 
+	public void clearUpgrades() {
+		upgrades.resetUpgrades();
+	}
+
+
+	/**
+	 * Clears all entities that have an ID of player
+	 */
 	public void clearPlayer() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);
 			// If the player is not needed on the screen, remove the player from the screen 
 			if (tempObject.getId() == ID.Player) {
 				this.removeObject(tempObject);
-				i--; 
+				i--; // Removing shrinks the array by 1, causing the loop to skip a player (should
+				// there be more than one)
 			}
 		}
 	}
-	
+
 	// Used to get the value of the timer 
 	public static int getTimer() {
 		return timer;
 	}
-	
+
 	// Used to check if the player can use the Freeze ability 
 	public static boolean getFreeze() {
 		return freeze;
 	}
-	
+
 	// Used to get the bounds of objects 
 	public void getBounds() {
 	}

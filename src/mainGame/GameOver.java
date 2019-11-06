@@ -63,14 +63,16 @@ public class GameOver {
 		// Clear screen when game is over 
 		handler.clearPlayer();
 		handler.clearCoins();
+		handler.clearEnemies();
+		handler.clearUpgrades();
 		flash();
 	}
 
 	// Used to create graphics of game over screen 
 	public void render(Graphics g) {
 		// Defines the text
-		Font font = new Font("Amoebic", 1, 100);
-		Font font2 = new Font("Amoebic", 1, 60);
+		Font font = FontHandler.setSize(FontHandler.BODY_FONT, 95);
+		Font font2 = FontHandler.setSize(FontHandler.BODY_FONT, 50);
 		g.setFont(font);
 		text = "Game Over";
 		// Draws text in designated position 

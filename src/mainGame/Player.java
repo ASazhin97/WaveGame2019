@@ -20,7 +20,7 @@ import mainGame.Game.STATE;
 // Start of class
 // Is a subclass of GameObject 
 public class Player extends GameObject {
-	
+
 	// Instance variables 
 	Random r = new Random();
 	Handler handler;
@@ -35,7 +35,8 @@ public class Player extends GameObject {
 	private String hitsoundMIDIMusic = "HitsoundPart2.mid";
 	private String pickupcoinMIDIMusic = "pickupcoin.mid";
 	private boolean wasHit;
-	
+	private int hitColorCooldown = 100;
+
 	// Main constructor 
 	public Player(double x, double y, ID id, Handler handler, HUD hud, Game game) {
 		super(x, y, id);
@@ -59,14 +60,14 @@ public class Player extends GameObject {
 		this.y += velY;
 		x = Game.clamp(x, 0, Game.WIDTH - 38);
 		y = Game.clamp(y, 0, Game.HEIGHT - 60);
-		// Adds trail to player 
-		handler.addObject(new Trail(x, y, ID.Trail, Color.white, playerWidth, playerHeight, 0.05, this.handler));
+		// add the trail that follows it and gets shorter has health decreases
+		handler.addObject(new Trail(x, y, ID.Trail, Color.white, playerWidth, playerHeight, 5 / hud.getHealth(), this.handler));
 		collision();
 		// If the player is invincible, start decreasing the time of the power - up 
 		if (tempInvincible > 0) {
 			tempInvincible--;
 		}
-		
+
 		// If the player was hit by the enemy, play the Midi file 
 		if (wasHit == true) {
 			// Try to play the Midi file 
@@ -105,26 +106,26 @@ public class Player extends GameObject {
 		hud.updateScoreColor(Color.white);
 		// Keep adding pick ups to the Handler class 
 		if (!handler.pickups.isEmpty()) {
-		for (int j = 0; j < handler.pickups.size(); j++) {
-			 Pickup pickupObject = handler.pickups.get(j);
-			// Picks up coins 
-			if (pickupObject.getId() == ID.PickupCoin) {
-				// If player picks up a coin, add 100 points to the score 
-				if (this.getBounds().intersects(pickupObject.getBounds())) {
-					hud.setScore(100);
-					handler.removePickup(pickupObject);
-					// Try to play the pick up coin sound 
-					try {
-						hitsoundMIDIPlayer.PlayMidi(pickupcoinMIDIMusic);
-					}
-					// If sound cannot be played, throw an exception 
-					catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
-						e.printStackTrace();
+			for (int j = 0; j < handler.pickups.size(); j++) {
+				Pickup pickupObject = handler.pickups.get(j);
+				// Picks up coins 
+				if (pickupObject.getId() == ID.PickupCoin) {
+					// If player picks up a coin, add 100 points to the score 
+					if (this.getBounds().intersects(pickupObject.getBounds())) {
+						hud.setScore(100);
+						handler.removePickup(pickupObject);
+						// Try to play the pick up coin sound 
+						try {
+							hitsoundMIDIPlayer.PlayMidi(pickupcoinMIDIMusic);
+						}
+						// If sound cannot be played, throw an exception 
+						catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 		}
-	}
 		// If the enemy or enemy attack hits the player, player's health will take damage 
 		for (int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
@@ -171,7 +172,7 @@ public class Player extends GameObject {
 	public void setDamage(double damage) {
 		this.damage = damage;
 	}
-	
+
 	// Used to get the amount of damage taken 
 	public double getDamage(){
 		return this.damage;
@@ -182,7 +183,7 @@ public class Player extends GameObject {
 		this.playerWidth = (int)size;
 		this.playerHeight = (int)size;
 	}
-	
+
 	// Used to get the size of the player 
 	public double getPlayerSize(){
 		return this.playerWidth;

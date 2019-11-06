@@ -24,7 +24,7 @@ public class LevelText extends GameObject {
 	private String text;
 	private int timer;
 	private Random r = new Random();
-	
+
 	// Main constructor 
 	public LevelText(double x, double y, String text, ID id, Handler _handler) {
 		super(x, y, id);
@@ -47,7 +47,7 @@ public class LevelText extends GameObject {
 		// Refers to the control text of the game 
 		if (text == "Controls") {
 			// Sets text
-			Font font = new Font("Amoebic", 1, 25);
+			Font font = FontHandler.setSize(FontHandler.BODY_FONT, 25);
 			g.setFont(font);
 			g.setColor(Color.CYAN);
 			g.fillRect(1586, 10, 300, 300);
@@ -60,22 +60,22 @@ public class LevelText extends GameObject {
 			g.drawString("right", 1810, 155);
 			g.drawString("up", 1710, 90);
 			g.drawString("Down", 1695, 225);
-			Font font2 = new Font("Amoebic", 1, 18);
+			Font font2 = FontHandler.setSize(FontHandler.BODY_FONT, 18);
 			g.setFont(font2);
 			g.drawString("Pause Menu: PRESS P", 1588, 265);
 			g.drawString("Activate Power-up: PRESS ENTER", 1588, 285);
 		}
 		// Else set the font again 
 		else {
-		Font font = new Font("Amoebic", 1, 125);
-		g.setFont(font);
-		g.setColor(Color.white);
-		g.drawString(this.text, Game.WIDTH / 2 - getTextWidth(font, this.text) / 2, (int) this.y);
-		// Removes text from screen when timer is done 
-		if (timer == 0) {
-			r.nextInt(9);
-			timer = 15;
-		     } 
+			Font font = FontHandler.setSize(FontHandler.HEADER_FONT, 125);
+			g.setFont(font);
+			g.setColor(Color.white);
+			g.drawString(this.text, Game.WIDTH / 2 - getTextWidth(font, this.text) / 2, (int) this.y);
+			// Removes text from screen when timer is done 
+			if (timer == 0) {
+				r.nextInt(9);
+				timer = 15;
+			} 
 		}
 	}
 
@@ -86,7 +86,7 @@ public class LevelText extends GameObject {
 		int textWidth = (int) (font.getStringBounds(text, frc).getWidth());
 		return textWidth;
 	}
-	
+
 	// Used to get the controls image 
 	public Image getImage(String path) {
 		Image image = null;

@@ -30,6 +30,10 @@ public class Spawn10to20 {
 	private int tempCounter = 0;
 	public static int LEVEL_SET_2_RESET = 0;
 	public static boolean spawning = true;
+	private int randnumber;
+	private Random r1 = new Random();
+
+
 
 	// Main constructor 
 	public Spawn10to20(Handler handler, HUD hud, Spawn1to10 spawner, Game game) {
@@ -60,7 +64,7 @@ public class Spawn10to20 {
 	// Used to define time in the game 
 	public void tick() {
 		// Adds coins to handler 
-		handler.addPickupCoin(new PickupCoin(100, 100, ID.PickupCoin, "images/PickupCoin.PNG", handler, game ));
+		randnumber = getRandomInteger(100, 1);
 		// Keeps track of player's horizontal position 
 		if (game.getPlayerXInt() > (Game.WIDTH - Game.WIDTH/(6 + (2/3)) - 5)) {
 			randx = r.nextInt((Game.WIDTH - (Game.WIDTH - game.getPlayerXInt())) - Game.WIDTH/(6 + (2/3)));
@@ -73,7 +77,7 @@ public class Spawn10to20 {
 				randx = r.nextInt(Game.WIDTH - game.getPlayerXInt() - Game.WIDTH/(6 + (2/3))) + game.getPlayerXInt() + Game.WIDTH/(6 + (2/3));
 			}
 		}
-		
+
 		// Keeps track of player's vertical position 
 		if (game.getPlayerYInt() > (Game.HEIGHT - Game.HEIGHT/(6 + (2/3))) - 5) {
 			randy = r.nextInt((Game.HEIGHT - (Game.HEIGHT - game.getPlayerYInt())) - Game.HEIGHT/(6 + (2/3)));
@@ -86,7 +90,7 @@ public class Spawn10to20 {
 				randy = r.nextInt((Game.HEIGHT - (Game.HEIGHT - game.getPlayerYInt())) - Game.HEIGHT/(6 + (2/3)));
 			}
 		}
-		
+
 		// Before starting the set of levels, display this message 
 		if (levelNumber <= 0) {
 			levelTimer--;
@@ -97,13 +101,17 @@ public class Spawn10to20 {
 						ID.Levels1to10Text,handler));
 				tempCounter++;
 			}
-			
+
 			// If the level ended, clear the screen 
 			if (levelTimer <= 0) {
 				handler.clearEnemies();
 				tempCounter = 0;
 				levelNumber = levels.get(index);
 			}
+		}
+		if (levelNumber <= 20 && randnumber == 10) {
+			handler.addPickup(new PickupCoin(getRandomInteger(2000, 1),
+					getRandomInteger(1000, 1), ID.PickupCoin, "images/PickupCoin.PNG", handler, game ));
 		}
 
 		// Level 11 
@@ -126,7 +134,7 @@ public class Spawn10to20 {
 						new EnemyBasic(randx, randy, 13, 13, ID.EnemyBasic, handler));
 				timer = 80;
 			}
-			
+
 			// When level timer reaches a certain amount, clear the level text 
 			if (levelTimer == 1320) {
 				handler.clearLevelText();
@@ -140,7 +148,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -148,7 +156,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 12 
+			// Level 12 
 		} else if (levelNumber == 2) {
 			// Spawn the enemies 
 			if (spawning) {
@@ -166,15 +174,15 @@ public class Spawn10to20 {
 			if (timer == 30) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 20, 2, ID.EnemySweep, handler));
-			// Spawn enemy every 20 milliseconds 
+				// Spawn enemy every 20 milliseconds 
 			} else if (timer == 20) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 20, -2, ID.EnemySweep, handler));
-			// Spawn enemy every 10 milliseconds 
+				// Spawn enemy every 10 milliseconds 
 			} else if (timer == 10) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 20, 4, ID.EnemySweep, handler));
-			// Spawn enemy when another enemy is removes 
+				// Spawn enemy when another enemy is removes 
 			} else if (timer == 0) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 20, -4, ID.EnemySweep, handler));
@@ -192,7 +200,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -200,7 +208,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 13 
+			// Level 13 
 		} else if (levelNumber == 3) {
 			// Spawn the enemies 
 			if (spawning) {
@@ -233,7 +241,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -241,7 +249,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 14 
+			// Level 14 
 		} else if (levelNumber == 4) {
 			// Spawn the enemies
 			levelTimer--;
@@ -268,7 +276,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -276,7 +284,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 15 
+			// Level 15 
 		} else if (levelNumber == 5) {
 			// Spawn the enemies
 			if (spawning) {
@@ -308,7 +316,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -316,7 +324,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 16 
+			// Level 16 
 		} else if (levelNumber == 6) {
 			// Spawn the enemies
 			if (spawning) {
@@ -349,7 +357,7 @@ public class Spawn10to20 {
 				// Change level 
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -357,7 +365,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 17 
+			// Level 17 
 		} else if (levelNumber == 7) {
 			// Spawn the enemies
 			if (spawning) {
@@ -375,15 +383,15 @@ public class Spawn10to20 {
 			if (timer == 35) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 30, 2, ID.EnemySweep, handler));
-			// Spawn enemy every 25 milliseconds 
+				// Spawn enemy every 25 milliseconds 
 			} else if (timer == 25) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 30, -2, ID.EnemySweep, handler));
-			// Spawn enemy every 15 milliseconds 
+				// Spawn enemy every 15 milliseconds 
 			} else if (timer == 15) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 30, 4, ID.EnemySweep, handler));
-			// If one enemy is removed from screen, spawn another
+				// If one enemy is removed from screen, spawn another
 			} else if (timer == 0) {
 				handler.addObject(
 						new EnemySweep(randx, randy, 30, -4, ID.EnemySweep, handler));
@@ -409,7 +417,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 18 
+			// Level 18 
 		} else if (levelNumber == 8) {
 			// Spawn the enemies
 			if (spawning) {
@@ -438,7 +446,7 @@ public class Spawn10to20 {
 				// Change level
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -446,7 +454,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 19 
+			// Level 19 
 		} else if (levelNumber == 9) {
 			// Spawn the enemies
 			levelTimer--;
@@ -469,7 +477,7 @@ public class Spawn10to20 {
 				// Change level
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -477,7 +485,7 @@ public class Spawn10to20 {
 					levelNumber = levels.get(index);
 				}
 			}
-		// Level 20 
+			// Level 20 
 		} else if (levelNumber == 10) {
 			// Spawn the enemies
 			if (spawning) {
@@ -506,7 +514,7 @@ public class Spawn10to20 {
 				// Change level
 				if (randomMax == 1) {
 					levelNumber = 101;
-				// And remove level from handler 
+					// And remove level from handler 
 				} else {
 					levels.remove(index);
 					randomMax--;
@@ -556,7 +564,12 @@ public class Spawn10to20 {
 			levelNumber = levels.get(index);
 		}
 	}
-	
+
+	public static int getRandomInteger(int maximum, int minimum){
+
+		return ((int) (Math.random()*(maximum - minimum))) + minimum;
+
+	}
 	// Used to spawn various enemies 
 	public static void setSpawn(boolean x) {
 		spawning = x;
@@ -570,26 +583,26 @@ public class Spawn10to20 {
 		randomMax = 10;
 		index = r.nextInt(randomMax);
 	}
-	
+
 	// Used to get the level number 
 	public int getLevelNumber(){
 		return levelNumber;
 	}
-	
+
 	// Used to set the level number 
 	public void setLevelNumber(int l){
 		levelNumber = l;
 	}
-	
+
 	// Used to get the amount of levels remaining 
 	public int getLevelsRemaining(){
 		return randomMax;
 	}
-	
+
 	// Used to set the amount of levels remaining 
 	public void setLevelsRemaining(int levelRem){
 	}
-	
+
 	// Used to set the RandomMax variable 
 	public void setRandomMax(int n){
 		randomMax = n;

@@ -10,11 +10,12 @@ package mainGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+
 import java.util.ArrayList;
 
 // Start of class 
 public class HUD {
-	
+
 	// Instance variables
 	public double health = 100;
 	private double healthMax = 100;
@@ -55,7 +56,7 @@ public class HUD {
 	public void setNumClear() {
 		this.numClear += 1;
 	}
-	
+
 	// Used to get amount of "regenerate player's health" abilities 
 	public double getregenValue() {
 		return regenValue;
@@ -150,7 +151,7 @@ public class HUD {
 	public double getActiveCost(){
 		return activeCost;
 	}
-	
+
 	// Used to set the activation cost of a power - up
 	public void setActiveCost(double a){
 		this.activeCost = a;
@@ -163,7 +164,7 @@ public class HUD {
 		health = Game.clamp(health, 0, healthMax);
 		greenValue = Game.clamp(greenValue, 0, 255);
 		greenValue = health * healthBarModifier;
-		
+
 		// If regeneration ability is unlocked, regenerate health until timer reaches 0 
 		if (regen) {
 			timer--;
@@ -171,23 +172,33 @@ public class HUD {
 				health += this.getregenValue();
 				timer = 10;
 			}
-			
+
 			// Set health when regeneration ability ends 
 			health = Game.clamp(health, 0, healthMax);
 		}
 	}
-	
+
 	// Used to reset the health bar 
 	public void reset(){
 		health = 100;
 		greenValue = 255;
 		healthBarModifier = 2;
+		numFreeze=0;
+		numRegen=0;
+		numHealth=0;
+		numSpeed=0;
+		numShrink=0;
+		numArmor=0;
+		numClear=0;
+		abilityUses = 0;
+		score = 00000000000;
+		level = 0;
 	}
 
 	// Used to create graphics
 	public void render(Graphics g) {
 		// Sets fonts used 
-		Font font = new Font("Amoebic", 1, 30);
+		Font font = FontHandler.HEADER_FONT;
 		g.setColor(Color.GRAY);
 		// Sets health bar 
 		g.fillRect(15, 15, healthBarWidth, 64);
@@ -215,9 +226,22 @@ public class HUD {
 		g.setFont(font);
 		g.setColor(scoreColor);
 		g.drawString("Score: " + score, 15, 115);
+		//A pop up message to let the player know they are able to purchase in the store.
+
+		if (this.getScore() >= Math.min(cost, activeCost)) {
+
+			String message = "PRESS P TO ACCESS THE STORE!";
+			g.setColor(Color.magenta);
+			g.drawString(message, 1400, 1000);
+
+
+		}
+
+
+		g.setColor(Color.GRAY);
 		g.drawString("Level: " + level, 15, 150);
 		g.drawString("Extra Lives: " + extraLives, 15, 185);
-		
+
 		// Displays current high score 
 		if (this.highScoreString != null){
 			g.drawString("High Score:", 15, 950);
@@ -227,10 +251,10 @@ public class HUD {
 		// Using the Freeze ability, display this message 
 		if (ability.equals("freezeTime")) {
 			g.drawString("Time Freezes: " + abilityUses, Game.WIDTH - 300, 64);
-		// Using the Clear Screen ability, display this message 
+			// Using the Clear Screen ability, display this message 
 		} else if (ability.equals("clearScreen")) {
 			g.drawString("Screen Clears: " + abilityUses, Game.WIDTH - 300, 64);
-		// Using the Level Skip ability, display this message 
+			// Using the Level Skip ability, display this message 
 		} else if (ability.equals("levelSkip")) {
 			g.drawString("Level Skips: " + abilityUses, Game.WIDTH - 300, 64);
 		}
@@ -240,7 +264,7 @@ public class HUD {
 	public void setAbility(String ability) {
 		this.ability = ability;
 	}
-	
+
 	// Used to get the ability being used 
 	public String getAbility(){
 		return ability;
@@ -264,8 +288,9 @@ public class HUD {
 	// Used to set the score of the player
 	public void setScore(int score) {
 		this.score += score;
+
 	}
-	
+
 	// Used to get the player's health 
 	public double getHealth(){
 		return health;
@@ -275,6 +300,7 @@ public class HUD {
 	public int getScore() {
 		return score;
 	}
+
 
 	// Used to get the level of the player
 	public int getLevel() {
@@ -343,33 +369,33 @@ public class HUD {
 			for(int i = 0; i < rows.length; i++) {
 				leaderboard.add(rows[i]);
 			}
-		// Else clear the leaderboard
+			// Else clear the leaderboard
 		} else {
 			leaderboard.clear();
 		}
-		
+
 		// Gets the highest score of the leaderboard 
 		this.highScoreString = leaderboard.get(0);
 	}
-	
+
 	// Used to get the leaderboard 
 	public ArrayList<String> getLeaderboard(){
 		return leaderboard;
 	}
-	
+
 	// Used to set the leaderboard 
 	public void sortLeaderboard() {
 		if(leaderboard.size() == 0) {
 			return;
 		} 
-		
+
 		// Separate name and score by using a comma 
 		for(int i = 0; i < leaderboard.size(); i++) {
 			int scoreI = Integer.parseInt(leaderboard.get(i).split(",")[1]);
-			
+
 			for(int j = 0; j < leaderboard.size(); j++) {
 				int scoreJ = Integer.parseInt(leaderboard.get(j).split(",")[1]);
-				
+
 				// If there is a new highest score, update the leaderboard 
 				if(scoreJ < scoreI) {
 					String tmp = leaderboard.get(j);

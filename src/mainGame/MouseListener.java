@@ -50,7 +50,7 @@ public class MouseListener extends MouseAdapter {
 	public void mousePressed(MouseEvent e) {
 		int mx = (int) (e.getX() / Game.scaleFactor);
 		int my = (int) (e.getY() / Game.scaleFactor);
-		
+
 		// If the game is over, click on the screen to get back to the menu 
 		// Reset all variables 
 		if (game.gameState == STATE.GameOver) {
@@ -59,9 +59,10 @@ public class MouseListener extends MouseAdapter {
 			hud.health = 100;
 			hud.setScore(0);
 			hud.setLevel(1);
+			spawner.restart();
 			spawnerE.restart();
 			spawnerE.addLevels();
-			spawner.restart();
+
 			spawner.addLevels();
 			spawner2.restart();
 			spawner2.addLevels();
@@ -71,7 +72,7 @@ public class MouseListener extends MouseAdapter {
 			pause.unSaveGame();
 			game.setIsGameSaved(false);
 			MouseListener.setEasy(false);
-		// Else if the player won the game, reset all the variables 
+			// Else if the player won the game, reset all the variables 
 		} else if (game.gameState == STATE.GameWon || game.gameState == STATE.GameWonEasy){
 			handler.object.clear();
 			upgrades.resetUpgrades();
@@ -140,31 +141,31 @@ public class MouseListener extends MouseAdapter {
 			if (mouseOver(mx, my, 1050, 300, 350, 400)) {
 				handler.object.clear();
 				game.gameState = STATE.Game;
-				
+
 				// If the game has a save file, get its stats
 				if(game.getIsGameSaved()){
 					game.setGameStats();
 				}
 				handler.addObject(player);
 			}
-			
+
 			// If the player wants to go to Easy mode 
 			else if (mouseOver(mx, my, 1450, 300, 350, 400)) {
 				handler.object.clear();
 				game.gameState = STATE.GameEasy;
 				handler.addObject(player);
 			}
-			
+
 			// If the player wants to go to the Help menu 
 			else if (mouseOver(mx, my, 80, 135, 850, 250)) {
 				game.gameState = STATE.Help;
 			}
-			
+
 			// If the player wants to go to the Leaderboard 
 			else if (mouseOver(mx,my,1050, 735, 750, 250)){
 				game.gameState = STATE.Leaderboard;
 			}
-			
+
 			// If the player wants to go to the credits 
 			else if (mouseOver(mx, my, 80, 435, 850, 250)) {
 				JOptionPane.showMessageDialog(game,
@@ -173,13 +174,13 @@ public class MouseListener extends MouseAdapter {
 								+ "\n\nThis game is grossly unfinished with minor bugs. However,"
 								+ " it is 100% playable, enjoy!");
 			}
-			
+
 			// If the player wants to exit the game 
 			else if (mouseOver(mx, my, 80, 735, 850, 250)) {
 				System.exit(1);
 			}
 		}
-		
+
 		// Back button for Help screen
 		else if (game.gameState == STATE.Help) {
 			if (mouseOver(mx, my, 850, 870, 200, 64)) {
@@ -190,24 +191,24 @@ public class MouseListener extends MouseAdapter {
 				game.gameState = STATE.Help2;
 			}
 		}
-		
+
 		// Back button for second Help screen 
 		else if (game.gameState == STATE.Help2){
-			
+
 			if(mouseOver(mx, my, 100, 870, 200, 64)){
 				game.gameState = STATE.Help;
 			}
-			
+
 			if(mouseOver(mx, my, 850, 870, 200, 64)){
 				game.gameState = STATE.Menu;
 			}
-			
+
 			if(mouseOver(mx, my, 1600, 870, 200, 65)){
 				game.gameState = STATE.Help3;
 			}
-			
+
 		}
-		
+
 		// Back button for third help screen 
 		else if (game.gameState == STATE.Help3){
 			if(mouseOver(mx, my, 100, 870, 200, 64)){
@@ -217,66 +218,61 @@ public class MouseListener extends MouseAdapter {
 				game.gameState = STATE.Menu;
 			}
 		}
-		
+
 		// If the game is paused, clear the screen 
 		else if(game.gameState == STATE.Pause){
-				if(mouseOver(mx, my, 550, 100, 900, 200)){
-					handler.clearEnemies();
-					handler.clearPlayer();
-					spawner.resetTempCounter();
-					spawner2.resetTempCounter();
+			if(mouseOver(mx, my, 550, 100, 900, 200)){
+				handler.clearEnemies();
+				handler.clearPlayer();
+				spawner.resetTempCounter();
+				spawner2.resetTempCounter();
 
-					// When exiting the pause menu, restart the level 
-					if(!pause.getGameSave()){
-						handler.object.clear();
-						upgrades.resetUpgrades();
-						hud.health = 100;
-						hud.setScore(0);
-						hud.setLevel(1);
-						spawner.restart();
-						spawner.addLevels();
-						spawner2.restart();
-						spawner2.addLevels();
-						Spawn1to10.LEVEL_SET = 1;
-						pause.unSaveGame();
-						game.setIsGameSaved(false);
-					} 
-					game.gameState = STATE.Menu;
-				}
+				// When exiting the pause menu, restart the level 
+				if(!pause.getGameSave()){
+					handler.object.clear();
+					upgrades.resetUpgrades();
+					hud.health = 100;
+					hud.setScore(0);
+					hud.setLevel(1);
+					spawner.restart();
+					spawner.addLevels();
+					spawner2.restart();
+					spawner2.addLevels();
+					Spawn1to10.LEVEL_SET = 1;
+					pause.unSaveGame();
+					game.setIsGameSaved(false);
+				} 
+				game.gameState = STATE.Menu;
+			}
 
-				// Help menu from the pause menu 
-				if(mouseOver(mx, my, 550, 400, 900, 200)){
-					game.gameState = STATE.PauseH1;
-				}
-				
-				// Shop menu from the pause menu 
-				if (this.mouseOver(mx, my, 550, 850, 900, 200)) {
+			// Help menu from the pause menu 
+			if(mouseOver(mx, my, 550, 400, 900, 200)){
+				game.gameState = STATE.PauseH1;
+			}
+
+			// Shop menu from the pause menu 
+			if (this.mouseOver(mx, my, 550, 850, 900, 200)) {
 				game.gameState = STATE.PauseShop;
-				pause.setDescription("Click on an ability in the Loadout to see its description.");
-				}
+				pause.setDescription("Click on an ability to see its description!");
+			}
 
-				// Save the game from the pause menu 
-				if(mouseOver(mx, my, 550, 700, 900, 200)){
-					pause.setGameSaved(true);
-					pause.saveGame();
-					pause.reset();
-				}
+			// Save the game from the pause menu 
+			if(mouseOver(mx, my, 550, 700, 900, 200)){
+				pause.setGameSaved(true);
+				pause.saveGame();
+				pause.reset();
+			}
 		}
 		// Shop menu buttons 
 		else if(game.gameState == STATE.PauseShop){
-			// Health regeneration ability 
-			if (mouseOver(mx, my, 100, 125, 125, 125)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
-					hud.setRegen();
-					hud.setNumRegen();
-					hud.setregenValue();
-				}
-			}
-			
-			// Increase health ability 
-			if (mouseOver(mx, my, 300, 125, 125, 125)) {
+			int rowHeight = 70;
+			int rowWidth = 600;
+			int spaceBetweenRows = 4;			
+			int storeYOffset = 200;
+
+
+			//Health Increase
+			if (mouseOver(mx, my, 120 + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				if(hud.getScore()>=hud.getCost()) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
@@ -284,18 +280,17 @@ public class MouseListener extends MouseAdapter {
 					hud.setNumHealth();
 				}
 			}
-			
-			// Shrink ability 
-			if (mouseOver(mx, my, 500, 125, 125, 125)) {
+			//Speed Boost
+			if (mouseOver(mx, my, 120 + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				if(hud.getScore()>=hud.getCost()) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
-					upgrades.decreasePlayerSize();
-					hud.setNumShrink();
-				}
+					upgrades.speedBoost();
+					hud.setNumSpeed();
+				}	
 			}
-			// Damage resistance ability 
-			if (mouseOver(mx, my, 700, 125, 125, 125)) {
+			//Damage Resistance
+			if (mouseOver(mx, my, 120 + rowWidth, (2 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				if(hud.getScore()>=hud.getCost()) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
@@ -303,50 +298,38 @@ public class MouseListener extends MouseAdapter {
 					hud.setNumArmor();
 				}
 			}
-			
-			// Speed boost ability 
-			if (mouseOver(mx, my, 100, 325, 125, 125)) {
+			//Shrink
+			if (mouseOver(mx, my, 120 + rowWidth, (3 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				if(hud.getScore()>=hud.getCost()) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
-					upgrades.speedBoost();
-					hud.setNumSpeed();
+					upgrades.decreasePlayerSize();
+					hud.setNumShrink();
 				}
 			}
-			
-			// Extra life power - up 
-			if (mouseOver(mx, my, 300, 325, 125, 125)) {
-			if(hud.getScore()>=hud.getCost()){
-				hud.setScore(-(int)hud.getCost());
-				hud.setCost(hud.getCost()*hud.getCostMultipier());
-				hud.setExtraLives(hud.getExtraLives() + 1);
+			//Health Regen
+			if (mouseOver(mx, my, 120, (4 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, rowWidth, rowHeight)) {
+				if(hud.getScore()>=hud.getCost()) {
+					hud.setScore(-(int)hud.getCost());
+					hud.setCost(hud.getCost()*hud.getCostMultipier());
+					hud.setRegen();
+					hud.setNumRegen();
+					hud.setregenValue();
+				}
+
+			}
+			//Extra Life
+			if (mouseOver(mx, my, 120 + rowWidth, (5 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
+				if(hud.getScore()>=hud.getCost()){
+					hud.setScore(-(int)hud.getCost());
+					hud.setCost(hud.getCost()*hud.getCostMultipier());
+					hud.setExtraLives(hud.getExtraLives() + 1);
 				}
 			}
-			
-			// Freeze Time power - up 
-			if (mouseOver(mx, my, 100, 650, 125, 125)) {
-				if(upgrades.getAbility().equals("")){
-				if (hud.getScore() >= hud.getActiveCost()) {
-					hud.setScore(-(int) hud.getActiveCost());
-					hud.setActiveCost(hud.getActiveCost() * 2);
-					upgrades.setAbility("freezeTime");
-					hud.setNumFreeze();
-					}
-				}
-				
-				// Five uses for the Freeze Time power - up 
-				else if(upgrades.getAbility().equals("freezeTime")){
-					if (hud.getScore() >= hud.getActiveCost()) {
-						hud.setScore(-(int) hud.getActiveCost());
-						hud.setActiveCost(hud.getActiveCost() * 2);
-						hud.setAbilityUses(5);
-						hud.setNumFreeze();
-					}
-				}
-			}
-			
-			// Clear Screen power - up 
-			if (mouseOver(mx, my, 500, 650, 125, 125)) {
+
+			//Clear Screen
+			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
+				System.out.println("Clicked clear");
 				if(upgrades.getAbility().equals("")) {
 					if (hud.getScore() >= hud.getActiveCost()) {
 						hud.setScore(-(int) hud.getActiveCost());
@@ -355,7 +338,7 @@ public class MouseListener extends MouseAdapter {
 						hud.setNumClear();
 					}
 				}
-				
+
 				// Three uses for the Clear Screen power - up 
 				else if(upgrades.getAbility().equals("clearScreen")){
 					if (hud.getScore() >= hud.getActiveCost()) {
@@ -363,6 +346,26 @@ public class MouseListener extends MouseAdapter {
 						hud.setActiveCost(hud.getActiveCost() * 2);
 						hud.setAbilityUses(3);
 						hud.setNumClear();
+					}
+				}
+			}
+			//Freeze Time
+			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
+				System.out.println("Clicked freez");
+				if(upgrades.getAbility().equals("")){
+					if (hud.getScore() >= hud.getActiveCost()) {
+						hud.setScore(-(int) hud.getActiveCost());
+						hud.setActiveCost(hud.getActiveCost() * 2);
+						upgrades.setAbility("freezeTime");
+						hud.setNumFreeze();
+					}
+				}
+				else if(upgrades.getAbility().equals("freezeTime")){
+					if (hud.getScore() >= hud.getActiveCost()) {
+						hud.setScore(-(int) hud.getActiveCost());
+						hud.setActiveCost(hud.getActiveCost() * 2);
+						hud.setAbilityUses(5);
+						hud.setNumFreeze();
 					}
 				}
 			}
@@ -414,9 +417,9 @@ public class MouseListener extends MouseAdapter {
 			if(mouseOver(mx, my, 1600, 870, 200, 65)){
 				game.gameState = STATE.PauseH2;
 			}
-		// Go from the second page of the Help menu to the first 
+			// Go from the second page of the Help menu to the first 
 		} else if(game.gameState == STATE.PauseH2){
-			
+
 			if(mouseOver(mx, my, 100, 870, 200, 64)){
 				game.gameState = STATE.PauseH1;
 			}
@@ -424,23 +427,23 @@ public class MouseListener extends MouseAdapter {
 			if(mouseOver(mx, my, 1600, 870, 200, 65)){
 				game.gameState = STATE.PauseH3;
 			}
-			
+
 			// Un - pause the game 
 			if (mouseOver(mx, my, 850, 870, 200, 64)) {
 				game.gameState = STATE.Pause;
 				return;
 			}
-		// Go from the third page of the Help menu to the second 
+			// Go from the third page of the Help menu to the second 
 		} else if (game.gameState == STATE.PauseH3) {
-			
+
 			if(mouseOver(mx, my, 100, 870, 200, 64)){
 				game.gameState = STATE.PauseH2;
 			}
-			
+
 			if (mouseOver(mx, my, 850, 870, 200, 64)) {
 				game.gameState = STATE.Pause;
 			}
-		// Go to the leaderboard to the menu 
+			// Go to the leaderboard to the menu 
 		} else if (game.gameState == STATE.Leaderboard){
 			game.gameState = STATE.Menu;
 		}
@@ -460,7 +463,7 @@ public class MouseListener extends MouseAdapter {
 		} else
 			return false;
 	}
-	
+
 	// Used to set the game to Easy mode
 	public static void setEasy(boolean x) {
 		isEasy = x;

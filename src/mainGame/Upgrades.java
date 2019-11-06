@@ -29,13 +29,15 @@ public class Upgrades {
 		this.spawnerE = spawnerE;
 		this.spawner = spawner;
 		this.spawner2 = spawner2;
+
+		handler.setUpgrades(this);
 	}
 
 	// Methods 
 	// Used to define the Clear screen ability 
 	public void clearScreenAbility() {
 		// Clear all enemies from screen
-		handler.clearEnemies();
+		handler.clearEnemiesAbility();
 		// Reduce the amount of power - ups left 
 		hud.setAbilityUses(-1);
 		// If no power - ups are available, do not use power - up 
@@ -80,10 +82,10 @@ public class Upgrades {
 		// If in Spawn1to10 set, skip level 
 		if (Spawn1to10.LEVEL_SET == 1 || Spawn1to10.LEVEL_SET == 3) {
 			spawner.skipLevel();
-		// If in SpawnEasy class, skip level 
+			// If in SpawnEasy class, skip level 
 		} else if (SpawnEasy.LEVEL_SET == 1) {
 			spawnerE.skipLevel();
-		// If in Spawn1to10 set, skip level 
+			// If in Spawn1to10 set, skip level 
 		} else if (Spawn1to10.LEVEL_SET == 2) {
 			spawner2.skipLevel();
 		}
@@ -127,44 +129,44 @@ public class Upgrades {
 			ability = "clearScreen";
 			hud.setAbility(ability);
 			hud.setAbilityUses(3);
-		// Shrink player power - up 
+			// Shrink player power - up 
 		} else if (path.equals("images/decreaseplayersize.png")) {
 			ability = "decreasePlayerSize";
 			decreasePlayerSize();
-		// Extra life power - up 
+			// Extra life power - up 
 		} else if (path.equals("images/extralife.png")) {
 			ability = "extraLife";
 			extraLife();
-		// Increase health power - up 
+			// Increase health power - up 
 		} else if (path.equals("images/healthincrease.png")) {
 			ability = "HealthIncrease";
 			healthIncrease();
-		// Regenerate health ability 
+			// Regenerate health ability 
 		} else if (path.equals("images/healthregeneration.png")) {
 			ability = "HealthRegen";
 			healthRegeneration();
-		// Reduce amount of damage taken ability 
+			// Reduce amount of damage taken ability 
 		} else if (path.equals("images/improveddamageresistance.png")) {
 			ability = "ImprovedDamageRistance";
 			improvedDamageResistance();
-		// Level skip power - up 
+			// Level skip power - up 
 		} else if (path.equals("images/levelskipability.png")) {
 			ability = "levelSkip";
 			hud.setAbility(ability);
 			hud.setAbilityUses(1);
-		// Freeze time ability 
+			// Freeze time ability 
 		} else if (path.equals("images/freezetimeability.png")) {
 			ability = "freezeTime";
 			hud.setAbility(ability);
 			hud.setAbilityUses(5);
-		// Speed boost power - up 
+			// Speed boost power - up 
 		} else if (path.equals("images/speedboost.png")) {
 			ability = "SpeedBoost";
 			speedBoost();
 		}	
 		System.out.println(ability);
 	}
-	
+
 	// Used to set the name of each ability 
 	public void setAbility(String theAbility){
 		// Clear screen ability 
@@ -172,37 +174,37 @@ public class Upgrades {
 			ability = "clearScreen";
 			hud.setAbility(ability);
 			hud.setAbilityUses(3);
-		// Shrink player power - up 
+			// Shrink player power - up 
 		} else if (theAbility.equals("decreasePlayerSize")) {
 			ability = "decreasePlayerSize";
 			decreasePlayerSize();
-		// Extra life power - up 
+			// Extra life power - up 
 		} else if (theAbility.equals("extraLife")) {
 			ability = "extraLife";
 			extraLife();
-		// Increase health power - up 
+			// Increase health power - up 
 		} else if (theAbility.equals("HealthIncrease")) {
 			ability = "HealthIncrease";
 			healthIncrease();
-		// Regenerate health ability 
+			// Regenerate health ability 
 		} else if (theAbility.equals("HealthRegen")) {
 			ability = "HealthRegen";
 			healthRegeneration();
-		// Reduce amount of damage taken ability 
+			// Reduce amount of damage taken ability 
 		} else if (theAbility.equals("ImprovedDamageRistance")) {
 			ability = "ImprovedDamageRistance";
 			improvedDamageResistance();
-		// Level skip power - up 
+			// Level skip power - up 
 		} else if (theAbility.equals("levelSkip")) {
 			ability = "levelSkip";
 			hud.setAbility(ability);
 			hud.setAbilityUses(1);
-		// Freeze time ability 
+			// Freeze time ability 
 		} else if (theAbility.equals("freezeTime")) {
 			ability = "freezeTime";
 			hud.setAbility(ability);
 			hud.setAbilityUses(5);
-		// Speed boost power - up 
+			// Speed boost power - up 
 		} else if (theAbility.equals("SpeedBoost")) {
 			ability = "SpeedBoost";
 			speedBoost();
@@ -215,6 +217,7 @@ public class Upgrades {
 		hud.resetHealth();
 		hud.resetRegen();
 		hud.setExtraLives(0);
+		hud.reset();
 		player.setPlayerSize(32);
 		upgradeScreen.resetPaths();
 	}

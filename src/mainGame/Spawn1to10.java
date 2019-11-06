@@ -112,6 +112,7 @@ public class Spawn1to10 {
 				tempCounter = 0;
 				index = r.nextInt(levelsRemaining - 5);
 				levelNumber = levels.get(index);
+				game.setRandomBg();
 			}
 
 		}
@@ -177,6 +178,8 @@ public class Spawn1to10 {
 						System.out.println("And is changing to: " + levelNumber);
 					}
 				}
+
+				game.setRandomBg();
 			}
 		// Level 2
 		} else if (levelNumber == 2) {
@@ -243,6 +246,8 @@ public class Spawn1to10 {
 						System.out.println("And is changing to: " + levelNumber);
 					}
 				}
+
+				game.setRandomBg();
 			}
 		// Level 3
 		} else if (levelNumber == 3) {
@@ -298,6 +303,8 @@ public class Spawn1to10 {
 						System.out.println("And is changing to: " + levelNumber);
 					}
 				}
+
+				game.setRandomBg();
 			}
 			// Level 4
 		} else if (levelNumber == 4) {
@@ -347,6 +354,8 @@ public class Spawn1to10 {
 						System.out.println("And is changing to: " + levelNumber);
 					}
 				}
+
+				game.setRandomBg();
 			}
 		// Level 5
 		} else if (levelNumber == 5) {
@@ -401,6 +410,8 @@ public class Spawn1to10 {
 						System.out.println("And is changing to: " + levelNumber);
 					}
 				}
+
+				game.setRandomBg();
 			}
 		// Level 6
 		} else if (levelNumber == 6) {
@@ -471,6 +482,8 @@ public class Spawn1to10 {
 					index = r.nextInt(levelsRemaining);
 					levelNumber = levels.get(index);
 				}
+
+				game.setRandomBg();
 			}
 		// Level 7
 		} else if (levelNumber == 7) {
@@ -538,6 +551,8 @@ public class Spawn1to10 {
 					index = r.nextInt(levelsRemaining);
 					levelNumber = levels.get(index);
 				}
+
+				game.setRandomBg();
 			}
 		// Level 8 
 		} else if (levelNumber == 8) {
@@ -589,6 +604,8 @@ public class Spawn1to10 {
 					index = r.nextInt(levelsRemaining);
 					levelNumber = levels.get(index);
 				}
+
+				game.setRandomBg();
 			}
 		// Level 9
 		} else if (levelNumber == 9) {
@@ -644,6 +661,8 @@ public class Spawn1to10 {
 					index = r.nextInt(levelsRemaining);
 					levelNumber = levels.get(index);
 				}
+
+				game.setRandomBg();
 			}
 		// Level 10
 		} else if (levelNumber == 10) {
@@ -693,6 +712,8 @@ public class Spawn1to10 {
 					index = r.nextInt(levelsRemaining);
 					levelNumber = levels.get(index);
 				}
+
+				game.setRandomBg();
 			}
 		}
 
@@ -716,6 +737,7 @@ public class Spawn1to10 {
 							handler.removeObject(tempObject);
 							LEVEL_SET++;
 							game.gameState = STATE.Upgrade;
+							game.setRandomBg();
 						}
 						// Gets health of enemy 
 						else if (tempObject.getHealth() <= 900){
@@ -755,6 +777,8 @@ public class Spawn1to10 {
 				levelNumber = levels.get(index);
 			}
 		}
+
+		game.setRandomBg();
 	}
 	
 // Used to create a random integer 
@@ -776,6 +800,8 @@ public static int getRandomInteger(int maximum, int minimum){
 		levelTimer = 150;
 		levelsRemaining = 10;
 		index = r.nextInt(levelsRemaining);
+		levels.clear();
+		addLevels();
 	}
 	
 	// Used to get the level number

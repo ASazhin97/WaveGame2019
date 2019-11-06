@@ -53,14 +53,14 @@ public class Menu {
 		// Try to place an image on screen 
 		try {
 			img = ImageIO.read(new File("images/4.gif"));
-		// If image cannot be found, throw exception 
+			// If image cannot be found, throw exception 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// Handles the firework image when the timer of the circles reach 0 
 		handler.addObject(new MenuFireworks((r.nextInt(Game.WIDTH) - 25), 500, 50, 50, 0, -2,
 				colorPick.get(r.nextInt(6)), ID.Firework, this.handler));
-		
+
 		// Defines each image on the help menu 
 		enemy1Img = getImage("images/gameImgEnemy1.PNG");
 		enemy2Img = getImage("images/gameImgEnemy2.PNG");
@@ -96,10 +96,10 @@ public class Menu {
 			// Firework runs for 300 milliseconds 
 			timer = 300;
 		}
-		
+
 		handler.tick();
 	}
-	
+
 	// Used to get the image in the help menu 
 	public Image getImage(String path) {
 		Image image = null;
@@ -107,7 +107,7 @@ public class Menu {
 		try {
 			URL imageURL = Game.class.getResource(path);
 			image = Toolkit.getDefaultToolkit().getImage(imageURL);
-		// If the image is not found, throw exception 
+			// If the image is not found, throw exception 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,101 +116,68 @@ public class Menu {
 
 	// Used to create the images on screen 
 	public void render(Graphics g) {
+		Font bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 100);
+		Font smallFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
 		if (game.gameState == STATE.Menu) {
 			g.drawImage(img, 0, 0, Game.WIDTH, Game.HEIGHT, null);
 			handler.render(g);
-			// Sets the menu font 
-			Font font = new Font("Amoebic", 1, 100);
-			Font font2 = new Font("Amoebic", 1, 60);
-
-			// Game modes font 
-			g.setFont(font);
-			g.setColor(Color.white);
-			g.drawString("Game Modes", 1140, 200);
-
 			// Title font 
-			g.setFont(font);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Wave Game: B4&Aftr.io", 75, 100);
+			g.drawString("Game Modes", 1140, 200);
 
 			// Waves Mode button font
-			g.setColor(Color.white);
+			g.setFont(smallFont);
 			g.drawRect(1050, 300, 350, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Waves",1130, 510);
-			
-			// Easy Mode button font 
-			g.setColor(Color.white);
+
 			g.drawRect(1450, 300, 350, 400);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Easy Mode",1470, 510);
-			
-			// Leaderboard button font 
-			g.setColor(Color.white);
 			g.drawRect(1050, 735, 750, 250);
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawString("Leaderboard",1250, 900);
-			
+
 			// Help menu button font 
-			g.setColor(Color.white);
+			g.setFont(bigFont);
 			g.drawRect(80, 135, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Help", 400, 280);
-
-			// Credits button font 
-			g.setColor(Color.white);
 			g.drawRect(80, 435, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Credits", 340, 600);
-
-			// Help menu font 
-			g.setColor(Color.white);
 			g.drawRect(80, 735, 850, 250);
-			g.setFont(font);
-			g.setColor(Color.white);
 			g.drawString("Quit", 400, 900);
-		} else if (game.gameState == STATE.Help) {
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
 
-			// Beginning of Help menu 
-			g.setFont(font);
+		} else if (game.gameState == STATE.Help) { // if the user clicks on "help"
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
+
+			g.setFont(bigFont);
 			g.setColor(Color.white);
+
 			g.drawString("Help", 900, 70);
 
 			// Instructions displayed in the Help menu 
 			// First help page 
-			g.setFont(font2);
+			g.setFont(smallFont);
 			g.drawString("Waves: Simply use Arrow keys or WASD to move and avoid enemies.", 40, 200);
 			g.drawString("One you avoid them long enough, a new batch will spawn in! Defeat each boss to win!", 40, 240);
 			g.drawString("Press P to pause and un-pause", 40, 300);
 			g.drawString("Press Enter to use abilities when they have been equipped", 40, 340);
 			g.drawString("Click Next to see Enemy and Boss Summeries", 40, 800);
-
-			// Draws the 'next' and 'main' buttons for the help menu 
-			g.setFont(font2);
-			g.setColor(Color.white);
 			g.drawRect(1600, 870, 200, 65);
 			g.drawString("Next", 1650, 910);
 			g.drawRect(850, 870, 200, 64);
 			g.drawString("Main", 920, 910);
-		
-		// Second help page 
-		} else if (game.gameState == STATE.Help2){
-			
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
-			g.setFont(font);
+		} else if (game.gameState == STATE.Help2){ //second help page
+
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
+
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("Different Enemies", 800, 70);
-			
-			
-			g.setFont(font2);
+
+
+			g.setFont(smallFont);
 			g.drawString("1. Green. These will", 40, 200);
 			g.drawString("follow you where ever", 40, 240);
 			g.drawString("you are on screen.", 40, 280);
@@ -226,9 +193,8 @@ public class Menu {
 			g.drawString("5. Burst. Warning flashes", 1500, 200);
 			g.drawString("will appear from the side", 1500, 240);
 			g.drawString("they will jump out from", 1500, 280);
-			
-			// Draws the 'back', 'next', and 'main' buttons for the help menu 
-			g.setFont(font2);
+
+			//Navigation
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);
@@ -236,24 +202,23 @@ public class Menu {
 			g.drawString("Main", 920, 910);
 			g.drawRect(1600, 870, 200, 65);
 			g.drawString("Next", 1650, 910);
-			
+
 			// Images used to show the enemies 
 			g.drawImage(enemy1Img, 100, 340, 250, 250, null);
 			g.drawImage(enemy2Img, 400, 340, 250, 250, null);
 			g.drawImage(enemy3Img, 750, 340, 250, 250, null);
 			g.drawImage(enemy4Img, 1100, 340, 250, 250, null);
 			g.drawImage(enemy5Img, 1500, 340, 300, 250, null);
-			
-		// Third help page 
+
+			// Third help page 
 		} else if (game.gameState == STATE.Help3){
-			
-			Font font = new Font("impact", 1, 50);
-			Font font2 = new Font("impact", 1, 30);
-			g.setFont(font);
+
+			bigFont = FontHandler.setSize(FontHandler.HEADER_FONT, 50);
+			smallFont = FontHandler.setSize(FontHandler.BODY_FONT, 30);
+			g.setFont(bigFont);
 			g.setColor(Color.white);
 			g.drawString("The Bosses", 830, 70);
-			
-			g.setFont(font2);
+			g.setFont(smallFont);
 			g.drawString("The Red Boss. Dodge the", 40, 200);
 			g.drawString("explosive bullets that he", 40, 240);
 			g.drawString("throws and stay below the line.", 40, 280);
@@ -262,9 +227,7 @@ public class Menu {
 			g.drawString("moves differently so keep", 600, 240);
 			g.drawString("moving and stay alert!", 600, 280);
 			g.drawImage(boss2Img, 600, 340, 250, 250, null);
-			
-			// Draws the 'back' and 'main' buttons for the help menu 
-			g.setFont(font2);
+			//Navigation
 			g.setColor(Color.white);
 			g.drawRect(100, 870, 200, 64);
 			g.drawString("Back", 150, 910);

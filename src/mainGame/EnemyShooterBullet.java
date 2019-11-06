@@ -34,6 +34,8 @@ public class EnemyShooterBullet extends GameObject {
 		this.x += velX;
 		this.y += velY;
 		// Add a trail to the bullet 
+		if (this.y <= 0 || this.y >= Game.HEIGHT - 40) velY *= -.5;
+		if (this.x <= 0 || this.x >= Game.WIDTH - 16) velX *= -.5;
 		handler.addObject(new Trail(x, y, ID.Trail, Color.yellow, 4, 4, 0.025, this.handler));
 		removeBullets();
 	}
@@ -56,7 +58,7 @@ public class EnemyShooterBullet extends GameObject {
 	public void render(Graphics g) {
 		// Sets the color
 		g.setColor(Color.red);
-		g.fillRect((int) x, (int) y, 4, 4);
+		g.fillRect((int) x, (int) y, 4,4);
 	}
 
 	// Used to define the size of the enemy 

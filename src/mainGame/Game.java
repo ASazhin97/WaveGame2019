@@ -17,6 +17,7 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 import java.net.MalformedURLException;
 import javax.sound.midi.InvalidMidiDataException;
@@ -60,6 +61,9 @@ public class Game extends Canvas implements Runnable {
 	private String ShopMIDIMusic = "Fresh-Prince-Belair.mid";
 	private Midi ShopMIDIPlayer;
 	float originalTempoGAME;
+	private Game game;
+	private Color bgColor = Color.black;
+	private Color[] bgColorArr = new Color[11];
 	private File _inFile;
 	private Scanner _fileInput;
 	private Boolean isGameSaved;
@@ -110,6 +114,19 @@ public class Game extends Canvas implements Runnable {
 		ShopMIDIPlayer = new Midi();
 		// Creates screen the game is played on 
 		new Window((int) drawWidth, (int) drawHeight, "Wave Game ", this);
+
+		bgColorArr[0] = new Color(175, 120, 120);
+		bgColorArr[1] = new Color(125, 175, 120);
+		bgColorArr[2] = new Color(165, 120, 175);
+		bgColorArr[3] = new Color(110, 120, 170);
+		bgColorArr[4] = new Color(170, 110, 150);
+		bgColorArr[5] = new Color(95, 170, 170);
+		bgColorArr[6] = new Color(95, 170, 135);
+		bgColorArr[7] = new Color(170, 140, 95);
+		bgColorArr[8] = new Color(50, 50, 50);
+		bgColorArr[9] = new Color(140, 95, 170);
+		bgColorArr[10] = new Color(95, 170, 150);
+		
 		// Retrieves any data previously stored on the leaderboard 
 		leaderboard.retrieveData();
 	}
@@ -424,7 +441,7 @@ public class Game extends Canvas implements Runnable {
 		// Draw graphics according to scale 
 		g.scale(scaleFactor, scaleFactor);
 		// Set the color of the brush 
-		g.setColor(Color.black);
+		g.setColor(bgColor);
 		g.fillRect(0, 0, (int) WIDTH, (int) HEIGHT);
 		// Make sure Handler class is always updating 
 		handler.render(g);
@@ -436,6 +453,7 @@ public class Game extends Canvas implements Runnable {
 		} else {
 			// If game is being played at any point, draw respective levels 
 			if (gameState == STATE.Game || gameState == STATE.Boss || gameState == STATE.GameEasy) {
+				hud.render(g);
 			// If game is on the general menu or the help menu, draw Menu class 									
 			} else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.Help2
 					|| gameState == STATE.Help3) {
@@ -492,6 +510,12 @@ public class Game extends Canvas implements Runnable {
 		return gameOver;
 	}
 	
+
+
+	public void setRandomBg() {
+		int rand = new Random().nextInt(10);	//Random number between 0 and 10
+		bgColor = bgColorArr[rand];
+	}
 	// Used to run the main game 
 	public static void main(String[] args) throws MalformedURLException {
 		new Game();

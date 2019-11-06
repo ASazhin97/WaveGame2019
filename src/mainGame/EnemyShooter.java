@@ -75,10 +75,12 @@ public class EnemyShooter extends GameObject {
 		// Distance between bullet and player 
 		double distance = Math.sqrt(((this.x - player.getX()) * (this.x - player.getX()))
 				+ ((this.y - player.getY()) * (this.y - player.getY())));
+
 		// Sets the speed of the bullet 
-		bulletVelX = ((this.bulletSpeed / distance) * diffX);
-		bulletVelY = ((this.bulletSpeed / distance) * diffY);
+		bulletVelX = ((this.bulletSpeed / distance) * diffX) * (2* Math.random()); // numerator affects speed of enemy
+		bulletVelY = ((this.bulletSpeed / distance) * diffY) * (2* Math.random());// numerator affects speed of enemy
 		// Creates a new bullet when method is called 
+
 		handler.addObject(
 				new EnemyShooterBullet(this.x, this.y, bulletVelX, bulletVelY, ID.EnemyShooterBullet, this.handler));
 	}
