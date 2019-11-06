@@ -1,10 +1,11 @@
+/**
+ *Original author: Brandon Loehle
+ *Modifiers: Timothy Carta, Victoria Gorski, Richard Petrosino, James Salgado, and Julia Wilkinson 
+ *Description: The ID class is used to keep track of game entities to refer to in other classes.  
+ */
 package mainGame;
 
-/**
- * Used to easily identify each game entity
- * @author Brandon Loehle
- * 5/30/16
- */
+// Start of class 
 public enum ID {
 
 	Player,
@@ -25,6 +26,5 @@ public enum ID {
 	PickupHealth(),
 	PickupCoin(),
 	Levels1to10Text(),
-	EnemyBasic();
-	
+	EnemyBasic();	
 }
