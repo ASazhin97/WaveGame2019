@@ -1,44 +1,35 @@
+/**
+ *Original author: Brandon Loehle
+ *Modifiers: Timothy Carta, Victoria Gorski, Richard Petrosino, James Salgado, and Julia Wilkinson 
+ *Description: The Game class compiles all the classes in the WaveGame for the complete game
+ *product.
+ */
 package mainGame;
 
+// Imports 
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.DisplayMode;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.Thread.State;
+import java.util.Random;
 import java.util.Scanner;
 import java.net.MalformedURLException;
-
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
-
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
 import io.socket.SocketIO;
-import io.socket.SocketIOException;
 
-/**
- * Main game class. This class is the driver class and it follows the Holder
- * pattern. It houses references to ALL of the components of the game
- * 
- * @author Brandon Loehle 5/30/16
- */
-
-// THIS COMMENT IS FOR DEMONSTRATING THE GIT
-// HUB LAB WORKSHOP
-
+// Start of class
+// Is a subclass of Canvas and implements methods from the Runnable interface
 public class Game extends Canvas implements Runnable {
+	
+	// Instance variables 
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 1920, HEIGHT = 1080;
 	public static final int drawWidth = 1280, drawHeight = 720;
@@ -71,35 +62,29 @@ public class Game extends Canvas implements Runnable {
 	private Midi ShopMIDIPlayer;
 	float originalTempoGAME;
 	private Game game;
-	
+	private Color bgColor = Color.black;
+	private Color[] bgColorArr = new Color[11];
 	private File _inFile;
 	private Scanner _fileInput;
-	
 	private Boolean isGameSaved;
 	private GameSave savedGame;	
 	public SocketIO socket;
 	private Midi upgradeMidiPlayer;
 	private String upgradeMIDIMusic = "Bandit_Radio_synth.midi";
-	private SimpleMidi winMIDIPlayer;
-	private String winMIDIMusic = "Super_Mario_Bros._-_Flag_synth.mid";
-	/**
-	 * Used to switch between each of the screens shown to the user
-	 */
+	// Creates different menus the player can access 
 	public enum STATE {
 		Menu, Help, Help2, Help3, Game, GameOver, GameWon, Upgrade, Boss, Pause, PauseH1, PauseH2, PauseH3, PauseShop, Leaderboard, GameWonEasy, GameEasy
 	};
 
-	/**
-	 * Initialize the core mechanics of the game
-	 * @throws MalformedURLException 
-	 */
-
+	// Main constructor 
+	// Throws exception if reference material is not found 
 	public Game() throws MalformedURLException {
 
+		// Sets the screen 
 		scaleFactor = (double) drawWidth / (double) WIDTH;
-		
+		// Holds saved files for the game 
 		this.readFromSavedGameFile("gameSavesFile.txt");
-
+		// Creates new instances of each class to be referenced 
 		handler = new Handler();
 		hud = new HUD();
 		spawnerE = new SpawnEasy(this.handler, this.hud, this.spawner, this);
@@ -107,6 +92,7 @@ public class Game extends Canvas implements Runnable {
 		spawner2 = new Spawn10to20(this.handler, this.hud, this.spawner, this);
 		menu = new Menu(this, this.handler, this.hud, this.spawner);
 		upgradeScreen = new UpgradeScreen(this, this.handler, this.hud);
+		// Creates new player and defines its width and height 
 		player = new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player, handler, this.hud, this);
 		upgrades = new Upgrades(this, this.handler, this.hud, this.upgradeScreen, this.player, this.spawnerE, this.spawner,
 				this.spawner2);
@@ -116,119 +102,91 @@ public class Game extends Canvas implements Runnable {
 		leaderboard = new Leaderboard(this,this.handler,this.hud);
 		mouseListener = new MouseListener(this, this.handler, this.hud, this.spawnerE, this.spawner, this.spawner2, this.upgradeScreen,
 				this.player, this.upgrades, pause);
+		// Adds keyListener to track what keys are pressed on the keyboard 
 		this.addKeyListener(new KeyInput(this.pause, this.handler, this, this.hud, this.player, this.spawner, this.upgrades));
+		// Adds a mouseListener to track what the player clicks and where the player moves 
 		this.addMouseListener(mouseListener);
+		// Creates new music files 
 		gameMIDIPlayer = new Midi();
 		menuMIDIPlayer = new Midi();
 		bossMIDIPlayer = new Midi();
 		upgradeMidiPlayer = new Midi();
 		ShopMIDIPlayer = new Midi();
+		// Creates screen the game is played on 
 		new Window((int) drawWidth, (int) drawHeight, "Wave Game ", this);
+
+		bgColorArr[0] = new Color(175, 120, 120);
+		bgColorArr[1] = new Color(125, 175, 120);
+		bgColorArr[2] = new Color(165, 120, 175);
+		bgColorArr[3] = new Color(110, 120, 170);
+		bgColorArr[4] = new Color(170, 110, 150);
+		bgColorArr[5] = new Color(95, 170, 170);
+		bgColorArr[6] = new Color(95, 170, 135);
+		bgColorArr[7] = new Color(170, 140, 95);
+		bgColorArr[8] = new Color(50, 50, 50);
+		bgColorArr[9] = new Color(140, 95, 170);
+		bgColorArr[10] = new Color(95, 170, 150);
 		
-		
+		// Retrieves any data previously stored on the leaderboard 
 		leaderboard.retrieveData();
-		  
-	    
-	    // OLD SERVER-BASED LEADERBOARD CODE
-	    // BAD IDEA FOR SEMESTER LONG PROJECT
-	    // socket = new SocketIO("http://tubbschat.com:3000/");
-	    // socket.connect(new IOCallback() {
-	    // @Override
-	    // public void onMessage(JSONObject json, IOAcknowledge ack) {
-	    // try {
-	    // System.out.println("Server said:" + json.toString(2));
-	    // } catch (JSONException e) {
-	    // e.printStackTrace();
-	    // }
-	    // }
-
-	    // @Override
-	    // public void onMessage(String data, IOAcknowledge ack) {
-	    // hud.setHighScore(data);
-	    // }
-
-	    // @Override
-	    // public void onError(SocketIOException socketIOException) {
-	    // System.out.println("an Error occured");
-	    // socketIOException.printStackTrace();
-	    // }
-
-	    // @Override
-	    // public void onDisconnect() {
-	    // System.out.println("Connection terminated.");
-	    // }
-
-	    // @Override
-	    // public void onConnect() {
-	    // socket.emit("getScore");
-	    // System.out.println("Connection established");
-	    // }
-
-	    // @Override
-	    // public void on(String event, IOAcknowledge ack, Object... args) {
-	    // System.out.println("Server triggered event '" + event + "'");
-	    // }
-
-	    // });
-	    // socket.emit("getBoard");
 	}
 
-	/**
-	 * The thread is simply a programs path of execution. This method ensures
-	 * that this thread starts properly.
-	 */
-	
-	//This sets the game stats when the user goes into the wave game mode, takes stuff from the saved game
+	// Methods
+	// Sets level, health, and score of player in Wave mode 
 	public void setGameStats(){
-		
 		hud.setLevel(savedGame.getLevel());
 		hud.setHealth(savedGame.getHealth());
 		hud.setScore(savedGame.getScore());
 		
-		
+		// If the player's saved game is greater or equal to level 10, set LevelsRemaining and 
+		// LevelNumber variables and restart the counter 
 		if(savedGame.getLevel() <= 10){
 			spawner.setLevelsRemaining(savedGame.getLevelsRem());
 			spawner.setLevelNumber(savedGame.getEnemy());
 			spawner.resetTempCounter();
+		// Else spawn enemies from Spawn1to10 class 
 		} else {
 			Spawn1to10.LEVEL_SET = 2;
 			spawner2.setLevelNumber(savedGame.getEnemy());
 			spawner2.setRandomMax(savedGame.getLevelsRem());
 			spawner2.resetTempCounter();
+			// Get any previously saved ability and abilities used data
 			upgrades.setAbility(savedGame.getAbility());
 			hud.setAbilityUses(savedGame.getAbilityUses());
-
 		}
 	}
 	
-	
+	// Used to check if there is a saved game 
 	public void setIsGameSaved(Boolean b){
 		isGameSaved = b;
 	}
 	
-	
+	// Used to return the state of the game 
 	public Boolean getIsGameSaved(){	
 		return isGameSaved;
 	}
+	
+	// Used to check if the game is running 
 	public synchronized void start() {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
 	}
 	
-	//reading from the saved game file to see if there are saved games or not.
+	// Checks to see if there are any saved games 
 	public void readFromSavedGameFile(String inputFile){
+		// Checks system if there is a saved game 
 		try {
 			_inFile =  new File(inputFile); 
 			_fileInput = new Scanner(_inFile);
-			
-			//checks if there 
-			
+			// If there is no saved game, return that there is no saved game 
 			if(_fileInput.nextInt() == 0){
 				isGameSaved = false;
-			} else { //takes all the elements from the file
+			// Else if saved game is found, return all data used in the game 
+			} else {
 				isGameSaved = true;
 				do{
+					// Returns all data from the saved file 
 					_fileInput.nextLine();
 					String name = _fileInput.next();
 					int score = _fileInput.nextInt();
@@ -238,40 +196,31 @@ public class Game extends Canvas implements Runnable {
 					int lvlRem = _fileInput.nextInt();
 					String ability = _fileInput.next();
 					int abilityUses = _fileInput.nextInt();
-					
+					// Updates the saved game file 
 					savedGame = new GameSave(name, score, health, level, enemy, lvlRem, ability, abilityUses);
 					
-					
-				
-				} while( _fileInput.hasNextLine());
-				
+					} while( _fileInput.hasNextLine());
 				}
-				
+			// If file is not found, close the game 
 			} catch (FileNotFoundException e){
 			System.out.println(e);
-			System.exit(1);		// IO error; exit program
+			System.exit(1);
 		}
-		
-
 	}
 	
-	
-	
-	
-	
-	
+	// Used to check if the game is running 
 	public synchronized void stop() {
+		// Tests to see if the game runs 
 		try {
 			thread.join();
 			running = false;
+		// If the game does not run, throw an exception 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Best Java game loop out there (used by Notch!)
-	 */
+	// Used to keep track of FPS and refresh rate 
 	@Override
 	public void run() {
 		this.requestFocus();
@@ -281,69 +230,62 @@ public class Game extends Canvas implements Runnable {
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
-
-		// Get monitor refresh rate:
-
+		// Checks FPS rate
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
-
 		double maxRefreshRate = 0;
-
-		// if there are multiple monitors, we want to use the refresh rate of
-		// the highest one
+		// If multiple monitors are used to play the game 
 		for (int i = 0; i < gs.length; i++) {
 			DisplayMode dm = gs[i].getDisplayMode();
 			int refreshRate = dm.getRefreshRate();
-
-			// if we can't ascertain the refresh rate, we want to default to
-			// 60FPS
+			// Default of 60 FPS given if system cannot supply its own FPS rate 
 			if (refreshRate == DisplayMode.REFRESH_RATE_UNKNOWN) {
 				System.out.println("Unknown refresh rate");
+				// If FPS rate is larger than 60, display FPS rate as 60 
 				if (maxRefreshRate < 60) {
 					maxRefreshRate = 60;
 				}
-
-				// if we can ascertain the refresh rate(s) we want to use the
-				// highest one.
+			// Defines refresh rate of system
 			} else {
 				System.out.println("Refresh Rate for Screen " + i + " : " + refreshRate);
+				// If refreshRate is larger than maxRefreshRate, set number as new maxRefreshRate
 				if (refreshRate >= maxRefreshRate) {
 					maxRefreshRate = refreshRate;
 				}
 			}
 		}
-
 		System.out.println("Using refresh rate: " + maxRefreshRate);
-
-		// we now want to set out refreshRate to the max refresh rate.
-
+		// Set refreshRate to maxRefreshRate
 		double nsScreen = 1000000000 / maxRefreshRate;
 		double deltaScreen = 0;
+		// While the game is running, define the refreshRate 
 		while (running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			deltaScreen += (now - lastTime) / nsScreen;
 			lastTime = now;
+			// While the game is running, try to run in - game time 
 			while (delta >= 1) {
 				try {
 					tick();
+				// If game cannot run properly 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}// 60 times a second, objects are being updated
- catch (JSONException e) {
-					// TODO Auto-generated catch block
+				// If objects cannot be defined 
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+				// Decrease the maxRefreshRate
 				delta--;
 			}
+			// While the screen is refreshing, render needed objects and increase FPS 
 			while (deltaScreen >= 1) {
 				render();
 				frames++;
 				deltaScreen--;
-
 			}
-
+			// If the refreshRate falls under 1000 milliseconds, print out the FPS rate, the 
+			// gameState, and level set 
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				System.out.println("FPS: " + frames);
@@ -352,219 +294,229 @@ public class Game extends Canvas implements Runnable {
 				frames = 0;
 			}
 		}
+		// Stop the refreshRate timer 
 		stop();
 	}
 
-	 /* Constantly ticking (60 times per second, used for updating smoothly). Used
-	 * for updating the instance variables (DATA) of each entity (location, health,
-	 * appearance, etc).
-	 * @throws IOException 
-	 * @throws JSONException 
-	 */
+	// Used to define time in the game
 	private void tick() throws IOException, JSONException {
+		// If the game is paused in any way, stop the background music 
 		if(gameState == STATE.Pause || gameState == STATE.PauseShop || gameState == STATE.PauseH1 || gameState == STATE.PauseH2 || gameState == STATE.PauseH3 || gameState == STATE.Leaderboard){
-			//do nothing when paused
-			
 			bossMIDIPlayer.StopMidi();
 			upgradeMidiPlayer.StopMidi();
 			menuMIDIPlayer.StopMidi();
 			gameMIDIPlayer.StopMidi();
 			
-			
+			// Set shop music as background music 
 			try {
 				ShopMIDIPlayer.PlayMidi(ShopMIDIMusic);
+			// If music is not found, throw an error 
 			} catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
 				e.printStackTrace();
 			}
-			
 		} else {
-		
-		
-		handler.tick();// ALWAYS TICK HANDLER, NO MATTER IF MENU OR GAME SCREEN
-		if (gameState == STATE.Game || gameState == STATE.Boss && Spawn1to10.LEVEL_SET != 3) {// game is running
+		// Make sure Handler class is updating 
+		handler.tick();
+		// If the player is playing the game but is not playing levels 1 - 11, make sure the HUD class 
+		// is updating 
+		if (gameState == STATE.Game || gameState == STATE.Boss && Spawn1to10.LEVEL_SET != 3) {
 			hud.tick();
-			if (Spawn1to10.LEVEL_SET == 1) {// user is on levels 1 thru 10, update them
+			// If the player is playing levels 1 - 10, run through the Spawn1to10 class 
+			if (Spawn1to10.LEVEL_SET == 1) {
 				spawner.tick();
-			} else if (Spawn1to10.LEVEL_SET == 2) {// user is on levels 10 thru 20, update them
+			// If the player is playing levels 11 - 20, run through the Spawn10to20 class 
+			} else if (Spawn1to10.LEVEL_SET == 2) {
 				spawner2.tick();
 			}
-		} else if (gameState == STATE.GameEasy || gameState == STATE.Boss) {// user is on menu, update the menu items
+			// If the player is playing easy mode or boss mode, make sure the HUD class is updating 
+			} else if (gameState == STATE.GameEasy || gameState == STATE.Boss) {
 			hud.tick();
+			// If the player is playing easy mode, run through the SpawnEasy class
 			if (SpawnEasy.LEVEL_SET == 1) {
 				spawnerE.tick();
+			// Else if game state cannot be identified, run the Spawn1to10 class
 			} else {
 				spawner.tick();
-			}
-		} else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.Help2 || gameState == STATE.Help3) {// user is on menu, update the menu items
+		}
+			// If the player is on the menu or help screen, make sure the Menu class is updating 
+			} else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.Help2 || gameState == STATE.Help3) {
 			menu.tick();
-		} else if (gameState == STATE.Upgrade) {// user is on upgrade screen, update the upgrade screen
+			// If the player is on the upgrade screen, make sure the UpgradeScreen class is updating 
+			} else if (gameState == STATE.Upgrade) {
 			upgradeScreen.tick();
-		} else if (gameState == STATE.GameOver) {// game is over, update the game over screen
+			// If the player is on the game over screen, make sure the GameOver class is updating 
+			} else if (gameState == STATE.GameOver) {
 			gameOver.tick();
-		} else if (gameState == STATE.GameWon){
+			// If the player won the game, make sure the GameWon class is updating 
+			} else if (gameState == STATE.GameWon){
+			// Record player's score 
 			gameWon.highscore = true;
 			gameWon.tick();
-		} else if (gameState == STATE.GameWonEasy){
+			// If the player won easy mode of the game, make sure to update the GameWon class
+			} else if (gameState == STATE.GameWonEasy){
+			// Do not record player's score 
 			gameWon.highscore = false;
 			gameWon.tick();
-		}
-		
-		//working with midi
-		
+			}
+		// Keeps track of music files in game 
+		// If player is starting the game, stop all background music 
 		if (gameState == STATE.Game) {
 			bossMIDIPlayer.StopMidi();
 			upgradeMidiPlayer.StopMidi();
 			menuMIDIPlayer.StopMidi();
 			ShopMIDIPlayer.StopMidi();
+			// Try to play game music 
 			try {
 				gameMIDIPlayer.PlayMidi(gameMIDIMusic);
 				originalTempoGAME = gameMIDIPlayer.getTempo();
+			// Throw exception is music file is not found 
 			} catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
 				e.printStackTrace();
 			}
-			if (Spawn1to10.LEVEL_SET == 2) {// user is on levels 10 thru 20, update them
+			// If the player is on levels 11 - 20, make sure to play the correct music 
+			if (Spawn1to10.LEVEL_SET == 2) {
 				gameMIDIPlayer.setTempo(160);
 			}
-			else if (Spawn1to10.LEVEL_SET == 1) {// user is on levels 1 thru 10, update them
+			// If the player is on levels 1 - 10, make sure to play the correct music 
+			else if (Spawn1to10.LEVEL_SET == 1) {
 				gameMIDIPlayer.setTempo(originalTempoGAME);
 			}
+		// If the player is on the menu or help screens, stop all background music 
 		} else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.Help2 || gameState == STATE.Help3) {
 			gameMIDIPlayer.StopMidi();
 			bossMIDIPlayer.StopMidi();
 			upgradeMidiPlayer.StopMidi();
 			ShopMIDIPlayer.StopMidi();
+			// Try to play the menu music 
 			try {
 				menuMIDIPlayer.PlayMidi(menuMIDIMusic);
+			// If music does not play, throw exception 
 			} catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
 				e.printStackTrace();
 			}
+		// If the player is on the boss levels, stop all background music 
 		}else if (gameState == STATE.Boss) {
 			gameMIDIPlayer.StopMidi();
 			menuMIDIPlayer.StopMidi();
 			ShopMIDIPlayer.StopMidi();
+			// Try to play the boss music 
 			try {
 				bossMIDIPlayer.PlayMidi(bossMIDIMusic);
+			// If music does not play, throw exception 
 			} catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
 				e.printStackTrace();
 			}
+		// If the player is on the upgrade screen, stop all background music 
 		}  else if (gameState == STATE.Upgrade) {
 			bossMIDIPlayer.StopMidi();
 			ShopMIDIPlayer.StopMidi();
+			// Try to play the upgrade screen music 
 			try {
 				upgradeMidiPlayer.PlayMidi(upgradeMIDIMusic);
+			// If music does not play, throw exception 
 			} catch (IOException | InvalidMidiDataException | MidiUnavailableException e) {
 				e.printStackTrace();
 			}
+		// If not on any of the game screens, stop all music 
 		} else {
 			gameMIDIPlayer.StopMidi();
 			menuMIDIPlayer.StopMidi();
 			bossMIDIPlayer.StopMidi();
 			upgradeMidiPlayer.StopMidi();
 			ShopMIDIPlayer.StopMidi();
-		}
-		
+		}	
 		}
 	}
 
-	/**
-	 * Constantly drawing to the many buffer screens of each entity requiring
-	 * the Graphics objects (entities, screens, HUD's, etc).
-	 */
+	// Used to create objects in the game 
 	private void render() {
-		/*
-		 * BufferStrategies are used to prevent screen tearing. In other words,
-		 * this allows for all objects to be redrawn at the same time, and not
-		 * individually
-		 */
+		// Used to buffer game according to computer recommendations
 		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
+			// If computer does not recommend anything, create new buffer strategy 
 			this.createBufferStrategy(3);
 			return;
 		}
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-
-		///////// Draw things bellow this/////////////
+		// Draw graphics according to scale 
 		g.scale(scaleFactor, scaleFactor);
-
-		g.setColor(Color.black);
+		// Set the color of the brush 
+		g.setColor(bgColor);
 		g.fillRect(0, 0, (int) WIDTH, (int) HEIGHT);
-
-		handler.render(g); // ALWAYS RENDER HANDLER, NO MATTER IF MENU OR GAME
-							// SCREEN
-
+		// Make sure Handler class is always updating 
+		handler.render(g);
+		// If game is paused at any point, draw HUD class or Pause class
 		if (gameState == STATE.Pause || gameState == STATE.PauseH1 || gameState == STATE.PauseH2
 				|| gameState == STATE.PauseH3 || gameState == STATE.PauseShop) {
 			hud.render(g);
 			pause.render(g);
 		} else {
-			if (gameState == STATE.Game || gameState == STATE.Boss || gameState == STATE.GameEasy) {// user is
-																		// playing
-																		// game,
-																		// draw
-																		// game
-																		// objects
+			// If game is being played at any point, draw respective levels 
+			if (gameState == STATE.Game || gameState == STATE.Boss || gameState == STATE.GameEasy) {
 				hud.render(g);
+			// If game is on the general menu or the help menu, draw Menu class 									
 			} else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.Help2
-					|| gameState == STATE.Help3) {// user is in help or the
-													// menu, draw the menu and
-													// help objects
+					|| gameState == STATE.Help3) {
 				menu.render(g);
-			} else if (gameState == STATE.Upgrade) {// user is on the upgrade
-													// screen, draw the upgrade
-													// screen
+			// If game is on upgrade screen, draw UpgradeScreen class
+			} else if (gameState == STATE.Upgrade) {
 				upgradeScreen.render(g);
-			} else if (gameState == STATE.GameOver) {// game is over, draw the
-														// game over screen
+			// If game is over, draw GameOver class
+			} else if (gameState == STATE.GameOver) {
 				gameOver.render(g);
+			// If game is won in Waves mode or Easy mode, draw GameWon class 
 			} else if (gameState == STATE.GameWon || gameState == STATE.GameWonEasy) {
 				gameWon.render(g);
+			// If game is in leaderboard menu, draw Leaderboard class 
 			} else if (gameState == STATE.Leaderboard){
 				leaderboard.render(g);
 			}
 		}
-		///////// Draw things above this//////////////
+		// Else do not display any graphics 
 		g.dispose();
 		bs.show();
 	}
 
-	/**
-	 * 
-	 * Constantly checks bounds, makes sure players, enemies, and info doesn't
-	 * leave screen
-	 * 
-	 * @param var
-	 *            x or y location of entity
-	 * @param min
-	 *            minimum value still on the screen
-	 * @param max
-	 *            maximum value still on the screen
-	 * @return value of the new position (x or y)
-	 */
+	// Used to check if player and enemies are on screen 
 	public static double clamp(double var, double min, double max) {
+		// If position is larger than max position, set position at max 
 		if (var >= max)
 			return var = max;
+		// If position is smaller than min position, set position at min 
 		else if (var <= min)
 			return var = min;
+		// Else do not change position 
 		else
 			return var;
 	}
 
+	// Used to get the horizontal position of player 
 	public int getPlayerXInt() {
 		return (int) player.getX();
 	}
 
+	// Used to get the vertical position of player 
 	public int getPlayerYInt() {
 		return (int) player.getY();
 	}
 
-	public static void fuckItUpBrah() {
+	// Used to spawn level set 3
+	public static void levelSet3() {
 		Spawn1to10.LEVEL_SET = 3;
 	}
 	
+	// Used when the game is over 
 	public GameOver getGameOver(){
 		return gameOver;
 	}
 	
+
+
+	public void setRandomBg() {
+		int rand = new Random().nextInt(10);	//Random number between 0 and 10
+		bgColor = bgColorArr[rand];
+	}
+	// Used to run the main game 
 	public static void main(String[] args) throws MalformedURLException {
 		new Game();
 	}
