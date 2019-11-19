@@ -113,8 +113,8 @@ public class Upgrades {
 	// Used to define the Speed boost power - up 
 	public void speedBoost() {
 		// Changes player's speed 
-		Player.playerSpeed *= 2;
-		Player.diagonalPlayerSpeed *= 2;
+		Player.playerSpeed *= 1.2;
+		Player.diagonalPlayerSpeed *= 1.2;
 	}
 
 	// Used to get a certain ability 

@@ -273,7 +273,7 @@ public class MouseListener extends MouseAdapter {
 
 			//Health Increase
 			if (mouseOver(mx, my, 120 + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
+				if(hud.getScore()>=hud.getCost() && hud.getNumHealth() < 7) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
 					hud.healthIncrease();
@@ -282,12 +282,12 @@ public class MouseListener extends MouseAdapter {
 			}
 			//Speed Boost
 			if (mouseOver(mx, my, 120 + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
+				if(hud.getScore()>=hud.getCost() && hud.getNumSpeed() < 8) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
 					upgrades.speedBoost();
 					hud.setNumSpeed();
-				}	
+				}
 			}
 			//Damage Resistance
 			if (mouseOver(mx, my, 120 + rowWidth, (2 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
@@ -300,7 +300,7 @@ public class MouseListener extends MouseAdapter {
 			}
 			//Shrink
 			if (mouseOver(mx, my, 120 + rowWidth, (3 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
+				if(hud.getScore()>=hud.getCost() && hud.getNumShrink() < 8) {
 					hud.setScore(-(int)hud.getCost());
 					hud.setCost(hud.getCost()*hud.getCostMultipier());
 					upgrades.decreasePlayerSize();

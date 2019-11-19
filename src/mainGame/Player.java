@@ -165,7 +165,7 @@ public class Player extends GameObject {
 	// Used to set size 
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle((int) this.x, (int) this.y, 32, 32);
+		return new Rectangle((int) this.x, (int) this.y, playerWidth, playerHeight);
 	}
 
 	// Used to set the amount of damage taken 
@@ -187,5 +187,9 @@ public class Player extends GameObject {
 	// Used to get the size of the player 
 	public double getPlayerSize(){
 		return this.playerWidth;
+	}
+	
+	public int getPlayerSpeed() {
+		return this.playerSpeed;
 	}
 }
