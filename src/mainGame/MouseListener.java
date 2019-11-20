@@ -6,6 +6,7 @@
  */
 package mainGame;
 
+import java.awt.Color;
 // Imports 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -99,42 +100,42 @@ public class MouseListener extends MouseAdapter {
 		else if (game.gameState == STATE.GameEasy) {
 		}
 		// Else if the game is on the upgrade screen, follow where the player clicks 
-		else if (game.gameState == STATE.Upgrade) {
-			if (mouseOver(mx, my, 100, 300, 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(1);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(1);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			} else if (mouseOver(mx, my, 100, 300 + (60 + Game.HEIGHT / 6), 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(2);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(2);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			} else if (mouseOver(mx, my, 100, 300 + 2 * (60 + Game.HEIGHT / 6), 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(3);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(3);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			}
-		}
+				else if (game.gameState == STATE.Upgrade) {
+					if (mouseOver(mx, my, 100, 300, 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(1);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(1);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} else if (mouseOver(mx, my, 100, 300 + (60 + Game.HEIGHT / 6), 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(2);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(2);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} else if (mouseOver(mx, my, 100, 300 + 2 * (60 + Game.HEIGHT / 6), 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(3);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(3);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} 
+				}
 		// If the player is on the game menu 
 		else if (game.gameState == STATE.Menu) {
 			// Waves Button
@@ -369,6 +370,20 @@ public class MouseListener extends MouseAdapter {
 					}
 				}
 			}
+			                                            
+			                                             //(i * (rowHeight + spaceBetweenRows)) + storeYOffset + 350
+			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.red);
+			} else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.blue);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (2 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.magenta);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (3 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.green);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (4 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.white);
+			}
+			
 
 			// Ability descriptions 
 			// Health regeneration ability 
