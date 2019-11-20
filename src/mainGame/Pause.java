@@ -255,6 +255,7 @@ public class Pause {
 
 			g.drawString("Passive Abilities", 120, storeYOffset);
 			g.drawString("Active Abilities", (rectW / 2) + 120, storeYOffset);
+			g.drawString("Character Customization", (rectW / 2) + 30, storeYOffset + 250);
 
 			//Back Button
 			g.setColor(Color.white);
@@ -380,7 +381,68 @@ public class Pause {
 				//Create the quant label
 				g.drawString("x" + quantity, (rectW / 2)  + rowWidth - 60, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 65)); //65 aligns right && 65 centers the text vertically
 			}
+			for( int i = 0; i < 5; i++) {
+				//Set font to rockwell
+				g.setFont(mediumFont);
 
+				String customizeColor = "#ERR in Pause.java:285";
+				int color = 0;
+
+				switch(i) {
+				case 0: 
+					customizeColor = "Red";
+					color = 1;
+					break;
+				case 1: 
+					customizeColor = "Blue";
+					color = 2;
+					break;
+				case 2:
+					customizeColor = "Pink";
+					color = 3;
+					break;
+				case 3:
+					customizeColor = "Green";
+					color = 4;
+					break;
+				case 4:
+					customizeColor = "White";
+					color = 5;
+					break;
+				}
+				//Create the row for the item name
+				g.setColor(new Color(160, 110, 60));
+				g.fillRect((rectW / 2), (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 320 , rowWidth, rowHeight);	//+20 is to offset passive label
+
+				//Create the row for the price + buy button
+				//default color
+				g.setColor(new Color(60, 60, 60));	//grey
+				g.setColor(new Color(60, 160, 110)); //green
+				//Make the box itself
+				g.fillRect((rectW / 2) + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 320, 75, rowHeight);	//+20 is to offset passive label
+
+				//Create the price label
+				//default color
+				g.setColor(new Color(230, 100, 100));	//red
+				g.setColor(Color.white); 	//white
+				//draw the price
+				g.setFont(smallFont);
+				g.drawString("USE", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 350);
+				//g.drawString("", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 375);
+				g.setFont(mediumFont);
+
+				//Create the quantity label
+				//Set font to ROCKWELL :)
+				g.setColor(Color.white);
+				g.drawString(customizeColor, (rectW / 2) + 10, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 360);	//65 centers the text vertically
+
+				//Create the quant label
+				//g.drawString("x" + color, (rectW / 2)  + rowWidth - 60, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 360)); //65 aligns right && 65 centers the text vertically
+			}
+				
+
+			
+			
 			//Description
 			g.drawString(this.getDescription(),120,950);
 
