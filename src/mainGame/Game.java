@@ -445,6 +445,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, (int) WIDTH, (int) HEIGHT);
 		// Make sure Handler class is always updating 
 		handler.render(g);
+		player.render(g);
 		// If game is paused at any point, draw HUD class or Pause class
 		if (gameState == STATE.Pause || gameState == STATE.PauseH1 || gameState == STATE.PauseH2
 				|| gameState == STATE.PauseH3 || gameState == STATE.PauseShop) {
