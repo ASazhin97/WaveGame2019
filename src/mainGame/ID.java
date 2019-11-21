@@ -26,5 +26,6 @@ public enum ID {
 	PickupHealth(),
 	PickupCoin(),
 	Levels1to10Text(),
+	LevelsSpawnEasy(),
 	EnemyBasic();	
 }

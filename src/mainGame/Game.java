@@ -87,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 		// Creates new instances of each class to be referenced 
 		handler = new Handler();
 		hud = new HUD();
-		spawnerE = new SpawnEasy(this.handler, this.hud, this.spawner, this);
+		spawnerE = new SpawnEasy(this.handler, this.hud, this.spawnerE, this);
 		spawner = new Spawn1to10(this.handler, this.hud, this);
 		spawner2 = new Spawn10to20(this.handler, this.hud, this.spawner, this);
 		menu = new Menu(this, this.handler, this.hud, this.spawner);
@@ -500,6 +500,9 @@ public class Game extends Canvas implements Runnable {
 		return (int) player.getY();
 	}
 
+	public static void levelSetEasy() {
+		SpawnEasy.LEVEL_SET = 1;
+	}
 	// Used to spawn level set 3
 	public static void levelSet3() {
 		Spawn1to10.LEVEL_SET = 3;
