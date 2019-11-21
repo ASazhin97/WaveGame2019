@@ -29,6 +29,7 @@ public class HUD {
 	private String ability = "";
 	private int abilityUses = 0;
 	private Color scoreColor = Color.white;
+	private Color pcolor = Color.white;
 	private Color freezeColor = new Color(0, 255, 255, 25);
 	private Color regenColor = new Color(120, 255, 120);
 	private int extraLives = 0;
@@ -156,6 +157,14 @@ public class HUD {
 	public void setActiveCost(double a){
 		this.activeCost = a;
 	}
+	//Used to set the color of the player
+	public void setPlayerColor(Color color) {
+		pcolor = color;
+	}
+	public Color getPlayerColor() {
+		return pcolor;
+	}
+
 
 	// Used to define time in the game
 	public void tick() {
