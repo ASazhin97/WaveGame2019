@@ -40,24 +40,28 @@ public class KeyInput extends KeyAdapter {
 		keyDown[3] = false;
 		keyDown[4] = false;
 	}
-
+	private STATE state;
 	// Methods 
 	// Used for when a key is pressed, move the player in that direction 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		this.speed = Player.playerSpeed;
-		
+		// When paused in EasyMode, game state will reset to WaveGame
 		// If the player wants to pause the game, freeze the screen 
 		if(key == 80){
-			if(game.gameState == STATE.Game || game.gameState == STATE.GameEasy){
+			state = game.gameState;
+			if(state == STATE.Game || state == STATE.GameEasy){
 				pause.setGameSaved(false);
 				game.gameState = STATE.Pause;
-				
 			// Else if the game is already paused, unfreeze the game 
 			} else if (game.gameState == STATE.Pause || game.gameState == STATE.PauseH1 || game.gameState == STATE.PauseH2 || game.gameState == STATE.PauseH3 || game.gameState ==STATE.PauseShop){
+				//if (state == STATE.Game) {
 				game.gameState = STATE.Game;
+				} else if (state == STATE.GameEasy) {
+				//	game.gameState = STATE.GameEasy;
+				}
 			}
-		}
+		//}
 		// If the 'shift' key is pressed, activate the level skip ability 
 		if (key == 88 && e.isShiftDown()) {
 			upgrades.levelSkipAbility();
