@@ -231,7 +231,8 @@ public class Pause {
 			int rowWidth = 600;
 			int spaceBetweenRows = 4;			
 			int storeYOffset = 200;
-			boolean canAfford, canAffordActive = false;
+			//boolean canAfford, canAffordActive = false;
+			boolean canAfford = false;
 
 			g.setColor(new Color(200, 150, 100));
 			g.fillRect(0,0,1920,1280);
@@ -256,7 +257,7 @@ public class Pause {
 				String upgradeName = "#ERR in Pause.java:285";
 				int quantity = 0;
 				canAfford = hud.getScore()>=hud.getCost(); // User has enough money
-				canAffordActive = hud.getScore()>=hud.getActiveCost(); // User has enough money
+				//canAffordActive = hud.getScore()>=hud.getActiveCost(); // User has enough money
 				switch(i) {
 				case 0: 
 					upgradeName = "Increase Health";
@@ -286,6 +287,10 @@ public class Pause {
 					quantity = hud.getExtraLives();
 					break;
 				}
+				
+				int price = (int) (hud.getCost() * ((double) (quantity + 1) / 2));
+				if(hud.getScore() >= price) canAfford = true;
+				else canAfford = false;
 
 				//Create the row for the item name
 				g.setColor(new Color(160, 110, 60));
@@ -307,7 +312,7 @@ public class Pause {
 				//draw the price
 				g.setFont(smallFont);
 				g.drawString("BUY", 132 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
-				g.drawString("(" + (int)hud.getCost() + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.drawString("(" + price + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
 				g.setFont(mediumFont);
 
 				//Create the quantity label
@@ -338,6 +343,10 @@ public class Pause {
 					quantity = hud.getNumFreeze();
 					break;
 				}
+				
+				int price = (int) (hud.getActiveCost() * ((double) (quantity + 1) / 2));
+				if(hud.getScore() >= price) canAfford = true;
+				else canAfford = false;
 
 				//Create the row for the item name
 				g.setColor(new Color(160, 110, 60));
@@ -347,7 +356,7 @@ public class Pause {
 				//default color
 				g.setColor(new Color(60, 60, 60));	//grey
 				//If we have enough money, make the box green
-				if(canAffordActive) g.setColor(new Color(60, 160, 110)); //green
+				if(canAfford) g.setColor(new Color(60, 160, 110)); //green
 				//Make the box itself
 				g.fillRect((rectW / 2) + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight);	//+20 is to offset passive label
 
@@ -355,11 +364,11 @@ public class Pause {
 				//default color
 				g.setColor(new Color(230, 100, 100));	//red
 				//IF can afford, make text white
-				if(canAffordActive) g.setColor(Color.white); 	//white
+				if(canAfford) g.setColor(Color.white); 	//white
 				//draw the price
 				g.setFont(smallFont);
 				g.drawString("BUY", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
-				g.drawString("(" + (int)hud.getActiveCost() + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.drawString("(" + price + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
 				g.setFont(mediumFont);
 
 				//Create the quantity label
