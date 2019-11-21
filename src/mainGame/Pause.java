@@ -231,6 +231,7 @@ public class Pause {
 			int rowWidth = 600;
 			int spaceBetweenRows = 4;			
 			int storeYOffset = 200;
+			//boolean canAfford, canAffordActive = false;
 			boolean canAfford = false;
 
 			g.setColor(new Color(200, 150, 100));
@@ -255,15 +256,18 @@ public class Pause {
 
 				String upgradeName = "#ERR in Pause.java:285";
 				int quantity = 0;
-
+				canAfford = hud.getScore()>=hud.getCost(); // User has enough money
+				//canAffordActive = hud.getScore()>=hud.getActiveCost(); // User has enough money
 				switch(i) {
 				case 0: 
 					upgradeName = "Increase Health";
 					quantity = hud.getNumHealth();
+					if (hud.getNumHealth() >= 7) canAfford = false;
 					break;
 				case 1: 
 					upgradeName = "Increase Speed";
 					quantity = hud.getNumSpeed();
+					if (hud.getNumHealth() >= 8) canAfford = false;
 					break;
 				case 2: 
 					upgradeName = "Increase Armor";
@@ -272,6 +276,7 @@ public class Pause {
 				case 3: 
 					upgradeName = "Decrease Size";
 					quantity = hud.getNumShrink();
+					if (hud.getNumHealth() >= 8) canAfford = false;
 					break;
 				case 4: 
 					upgradeName = "Health Regeneration";
