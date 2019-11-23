@@ -20,6 +20,6 @@ Other Improvements:
 
 -Add more visual additions to improve polish/flair
 
--Rebalance levels that are too easy or too hard
-
 -Music Tempo increased as the Player’s Health decreased
+
+-Countdown between levels(Similar to first boss, but on every level)

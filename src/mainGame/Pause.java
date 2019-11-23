@@ -231,21 +231,8 @@ public class Pause {
 			int rowWidth = 600;
 			int spaceBetweenRows = 4;			
 			int storeYOffset = 200;
-			boolean canAfford, canAffordActive = false;
-
-			if(hud.getScore()>=hud.getCost()) {
-				//There is enough money to buy this item, make button green
-				canAfford = true;
-			} else {
-				canAfford = false;
-			}
-
-			if(hud.getScore()>=hud.getActiveCost()) {
-				//There is enough money to buy this item, make button green
-				canAffordActive = true;
-			} else {
-				canAffordActive = false;
-			}
+			//boolean canAfford, canAffordActive = false;
+			boolean canAfford = false;
 
 			g.setColor(new Color(200, 150, 100));
 			g.fillRect(0,0,1920,1280);
@@ -255,6 +242,7 @@ public class Pause {
 
 			g.drawString("Passive Abilities", 120, storeYOffset);
 			g.drawString("Active Abilities", (rectW / 2) + 120, storeYOffset);
+			g.drawString("Character Customization", (rectW / 2) + 30, storeYOffset + 250);
 
 			//Back Button
 			g.setColor(Color.white);
@@ -269,15 +257,18 @@ public class Pause {
 
 				String upgradeName = "#ERR in Pause.java:285";
 				int quantity = 0;
-
+				canAfford = hud.getScore()>=hud.getCost(); // User has enough money
+				//canAffordActive = hud.getScore()>=hud.getActiveCost(); // User has enough money
 				switch(i) {
 				case 0: 
 					upgradeName = "Increase Health";
 					quantity = hud.getNumHealth();
+					if (hud.getNumHealth() >= 7) canAfford = false;
 					break;
 				case 1: 
 					upgradeName = "Increase Speed";
 					quantity = hud.getNumSpeed();
+					if (hud.getNumHealth() >= 8) canAfford = false;
 					break;
 				case 2: 
 					upgradeName = "Increase Armor";
@@ -286,6 +277,7 @@ public class Pause {
 				case 3: 
 					upgradeName = "Decrease Size";
 					quantity = hud.getNumShrink();
+					if (hud.getNumHealth() >= 8) canAfford = false;
 					break;
 				case 4: 
 					upgradeName = "Health Regeneration";
@@ -296,6 +288,10 @@ public class Pause {
 					quantity = hud.getExtraLives();
 					break;
 				}
+				
+				int price = (int) (hud.getCost() * ((double) (quantity + 1) / 2));
+				if(hud.getScore() >= price) canAfford = true;
+				else canAfford = false;
 
 				//Create the row for the item name
 				g.setColor(new Color(160, 110, 60));
@@ -317,7 +313,7 @@ public class Pause {
 				//draw the price
 				g.setFont(smallFont);
 				g.drawString("BUY", 132 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
-				g.drawString("(" + (int)hud.getCost() + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.drawString("(" + price + ")", 125 + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
 				g.setFont(mediumFont);
 
 				//Create the quantity label
@@ -348,6 +344,10 @@ public class Pause {
 					quantity = hud.getNumFreeze();
 					break;
 				}
+				
+				int price = (int) (hud.getActiveCost() * ((double) (quantity + 1) / 2));
+				if(hud.getScore() >= price) canAfford = true;
+				else canAfford = false;
 
 				//Create the row for the item name
 				g.setColor(new Color(160, 110, 60));
@@ -357,7 +357,7 @@ public class Pause {
 				//default color
 				g.setColor(new Color(60, 60, 60));	//grey
 				//If we have enough money, make the box green
-				if(canAffordActive) g.setColor(new Color(60, 160, 110)); //green
+				if(canAfford) g.setColor(new Color(60, 160, 110)); //green
 				//Make the box itself
 				g.fillRect((rectW / 2) + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight);	//+20 is to offset passive label
 
@@ -365,11 +365,11 @@ public class Pause {
 				//default color
 				g.setColor(new Color(230, 100, 100));	//red
 				//IF can afford, make text white
-				if(canAffordActive) g.setColor(Color.white); 	//white
+				if(canAfford) g.setColor(Color.white); 	//white
 				//draw the price
 				g.setFont(smallFont);
 				g.drawString("BUY", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 50);
-				g.drawString("(" + (int)hud.getActiveCost() + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
+				g.drawString("(" + price + ")", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 72);
 				g.setFont(mediumFont);
 
 				//Create the quantity label
@@ -380,7 +380,68 @@ public class Pause {
 				//Create the quant label
 				g.drawString("x" + quantity, (rectW / 2)  + rowWidth - 60, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 65)); //65 aligns right && 65 centers the text vertically
 			}
+			for( int i = 0; i < 5; i++) {
+				//Set font to rockwell
+				g.setFont(mediumFont);
 
+				String customizeColor = "#ERR in Pause.java:285";
+				int color = 0;
+
+				switch(i) {
+				case 0: 
+					customizeColor = "Red";
+					color = 1;
+					break;
+				case 1: 
+					customizeColor = "Blue";
+					color = 2;
+					break;
+				case 2:
+					customizeColor = "Pink";
+					color = 3;
+					break;
+				case 3:
+					customizeColor = "Green";
+					color = 4;
+					break;
+				case 4:
+					customizeColor = "White";
+					color = 5;
+					break;
+				}
+				//Create the row for the item name
+				g.setColor(new Color(160, 110, 60));
+				g.fillRect((rectW / 2), (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 320 , rowWidth, rowHeight);	//+20 is to offset passive label
+
+				//Create the row for the price + buy button
+				//default color
+				g.setColor(new Color(60, 60, 60));	//grey
+				g.setColor(new Color(60, 160, 110)); //green
+				//Make the box itself
+				g.fillRect((rectW / 2) + rowWidth, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 320, 75, rowHeight);	//+20 is to offset passive label
+
+				//Create the price label
+				//default color
+				g.setColor(new Color(230, 100, 100));	//red
+				g.setColor(Color.white); 	//white
+				//draw the price
+				g.setFont(smallFont);
+				g.drawString("USE", (rectW / 2) + rowWidth + 12, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 350);
+				//g.drawString("", (rectW / 2) + rowWidth + 5, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 375);
+				g.setFont(mediumFont);
+
+				//Create the quantity label
+				//Set font to ROCKWELL :)
+				g.setColor(Color.white);
+				g.drawString(customizeColor, (rectW / 2) + 10, (i * (rowHeight + spaceBetweenRows)) + storeYOffset + 360);	//65 centers the text vertically
+
+				//Create the quant label
+				//g.drawString("x" + color, (rectW / 2)  + rowWidth - 60, (i * (rowHeight + spaceBetweenRows) + storeYOffset + 360)); //65 aligns right && 65 centers the text vertically
+			}
+				
+
+			
+			
 			//Description
 			g.drawString(this.getDescription(),120,950);
 

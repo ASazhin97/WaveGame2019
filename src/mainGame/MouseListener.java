@@ -6,6 +6,7 @@
  */
 package mainGame;
 
+import java.awt.Color;
 // Imports 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -99,42 +100,42 @@ public class MouseListener extends MouseAdapter {
 		else if (game.gameState == STATE.GameEasy) {
 		}
 		// Else if the game is on the upgrade screen, follow where the player clicks 
-		else if (game.gameState == STATE.Upgrade) {
-			if (mouseOver(mx, my, 100, 300, 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(1);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(1);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			} else if (mouseOver(mx, my, 100, 300 + (60 + Game.HEIGHT / 6), 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(2);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(2);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			} else if (mouseOver(mx, my, 100, 300 + 2 * (60 + Game.HEIGHT / 6), 1721, 174)) {
-				upgradeText = upgradeScreen.getPath(3);
-				// Displays description of the upgrade
-				upgrades.activateUpgrade(upgradeText);
-				upgradeScreen.removeUpgradeOption(3);
-				// If in Easy mode, bring the player back to Easy mode
-				if (isEasy)
-					game.gameState = STATE.GameEasy;
-				// If in Wave mode, bring the player back to Wave mode
-				else
-					game.gameState = STATE.Game;
-			}
-		}
+				else if (game.gameState == STATE.Upgrade) {
+					if (mouseOver(mx, my, 100, 300, 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(1);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(1);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} else if (mouseOver(mx, my, 100, 300 + (60 + Game.HEIGHT / 6), 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(2);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(2);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} else if (mouseOver(mx, my, 100, 300 + 2 * (60 + Game.HEIGHT / 6), 1721, 174)) {
+						upgradeText = upgradeScreen.getPath(3);
+						// Displays description of the upgrade
+						upgrades.activateUpgrade(upgradeText);
+						upgradeScreen.removeUpgradeOption(3);
+						// If in Easy mode, bring the player back to Easy mode
+						if (isEasy)
+							game.gameState = STATE.GameEasy;
+						// If in Wave mode, bring the player back to Wave mode
+						else
+							game.gameState = STATE.Game;
+					} 
+				}
 		// If the player is on the game menu 
 		else if (game.gameState == STATE.Menu) {
 			// Waves Button
@@ -273,45 +274,40 @@ public class MouseListener extends MouseAdapter {
 
 			//Health Increase
 			if (mouseOver(mx, my, 120 + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getNumHealth() + 1) / 2) && hud.getNumHealth() < 7) {
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getNumHealth() + 1) / 2)));
 					hud.healthIncrease();
 					hud.setNumHealth();
 				}
 			}
 			//Speed Boost
 			if (mouseOver(mx, my, 120 + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getNumSpeed() + 1) / 2) && hud.getNumSpeed() < 8) {
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getNumSpeed() + 1) / 2)));
 					upgrades.speedBoost();
 					hud.setNumSpeed();
-				}	
+				}
 			}
 			//Damage Resistance
 			if (mouseOver(mx, my, 120 + rowWidth, (2 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getNumArmor() + 1) / 2)) {
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getNumArmor() + 1) / 2)));
 					upgrades.improvedDamageResistance();
 					hud.setNumArmor();
 				}
 			}
 			//Shrink
 			if (mouseOver(mx, my, 120 + rowWidth, (3 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getNumShrink() + 1) / 2) && hud.getNumShrink() < 8) {
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getNumShrink() + 1) / 2)));
 					upgrades.decreasePlayerSize();
 					hud.setNumShrink();
 				}
 			}
 			//Health Regen
-			if (mouseOver(mx, my, 120, (4 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, rowWidth, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()) {
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+			if (mouseOver(mx, my, 120 + rowWidth, (4 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, rowWidth, rowHeight)) {
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getNumRegen() + 1) / 2)) {
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getNumRegen() + 1) / 2)));
 					hud.setRegen();
 					hud.setNumRegen();
 					hud.setregenValue();
@@ -320,9 +316,8 @@ public class MouseListener extends MouseAdapter {
 			}
 			//Extra Life
 			if (mouseOver(mx, my, 120 + rowWidth, (5 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
-				if(hud.getScore()>=hud.getCost()){
-					hud.setScore(-(int)hud.getCost());
-					hud.setCost(hud.getCost()*hud.getCostMultipier());
+				if(hud.getScore()>=hud.getCost() * ((double) (hud.getExtraLives() + 1) / 2)){
+					hud.setScore(-(int) (hud.getCost() * ((double) (hud.getExtraLives() + 1) / 2)));
 					hud.setExtraLives(hud.getExtraLives() + 1);
 				}
 			}
@@ -331,9 +326,8 @@ public class MouseListener extends MouseAdapter {
 			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				System.out.println("Clicked clear");
 				if(upgrades.getAbility().equals("")) {
-					if (hud.getScore() >= hud.getActiveCost()) {
-						hud.setScore(-(int) hud.getActiveCost());
-						hud.setActiveCost(hud.getActiveCost() * 2);
+					if (hud.getScore() >= hud.getActiveCost() * ((double) (hud.getNumClear() + 1) / 2)) {
+						hud.setScore(-(int) (hud.getActiveCost() * ((double) (hud.getNumClear() + 1) / 2)));
 						upgrades.setAbility("clearScreen");
 						hud.setNumClear();
 					}
@@ -341,9 +335,8 @@ public class MouseListener extends MouseAdapter {
 
 				// Three uses for the Clear Screen power - up 
 				else if(upgrades.getAbility().equals("clearScreen")){
-					if (hud.getScore() >= hud.getActiveCost()) {
-						hud.setScore(-(int) hud.getActiveCost());
-						hud.setActiveCost(hud.getActiveCost() * 2);
+					if (hud.getScore() >= hud.getActiveCost() * ((double) (hud.getNumClear() + 1) / 2)) {
+						hud.setScore(-(int) (hud.getActiveCost() * ((double) (hud.getNumClear() + 1) / 2)));
 						hud.setAbilityUses(3);
 						hud.setNumClear();
 					}
@@ -353,22 +346,34 @@ public class MouseListener extends MouseAdapter {
 			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 20, 75, rowHeight)) {
 				System.out.println("Clicked freez");
 				if(upgrades.getAbility().equals("")){
-					if (hud.getScore() >= hud.getActiveCost()) {
-						hud.setScore(-(int) hud.getActiveCost());
-						hud.setActiveCost(hud.getActiveCost() * 2);
+					if (hud.getScore() >= hud.getActiveCost() * ((double) (hud.getNumFreeze() + 1) / 2)) {
+						hud.setScore(-(int) (hud.getActiveCost() * ((double) (hud.getNumFreeze() + 1) / 2)));
 						upgrades.setAbility("freezeTime");
 						hud.setNumFreeze();
 					}
 				}
 				else if(upgrades.getAbility().equals("freezeTime")){
-					if (hud.getScore() >= hud.getActiveCost()) {
-						hud.setScore(-(int) hud.getActiveCost());
-						hud.setActiveCost(hud.getActiveCost() * 2);
+					if (hud.getScore() >= hud.getActiveCost()  * ((double) (hud.getNumFreeze() + 1) / 2)) {
+						hud.setScore(-(int) (hud.getActiveCost() * ((double) (hud.getNumFreeze() + 1) / 2)));
 						hud.setAbilityUses(5);
 						hud.setNumFreeze();
 					}
 				}
 			}
+			                                            
+			                                             //(i * (rowHeight + spaceBetweenRows)) + storeYOffset + 350
+			if (mouseOver(mx, my, (1895 / 2) + rowWidth, (0 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.red);
+			} else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (1 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.blue);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (2 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.magenta);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (3 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.green);
+			}else if (mouseOver(mx, my, (1895 / 2) + rowWidth, (4 * (rowHeight + spaceBetweenRows)) + storeYOffset + 340, 75, rowHeight)){
+				hud.setPlayerColor(Color.white);
+			}
+			
 
 			// Ability descriptions 
 			// Health regeneration ability 

@@ -26,6 +26,7 @@ public class Player extends GameObject {
 	Handler handler;
 	private HUD hud;
 	private Game game;
+	
 	private double damage;
 	private int playerWidth, playerHeight;
 	private int tempInvincible = 0;
@@ -61,7 +62,7 @@ public class Player extends GameObject {
 		x = Game.clamp(x, 0, Game.WIDTH - 38);
 		y = Game.clamp(y, 0, Game.HEIGHT - 60);
 		// add the trail that follows it and gets shorter has health decreases
-		handler.addObject(new Trail(x, y, ID.Trail, Color.white, playerWidth, playerHeight, 5 / hud.getHealth(), this.handler));
+		handler.addObject(new Trail(x, y, ID.Trail, hud.getPlayerColor(), playerWidth, playerHeight, 5 / hud.getHealth(), this.handler));
 		collision();
 		// If the player is invincible, start decreasing the time of the power - up 
 		if (tempInvincible > 0) {
@@ -158,16 +159,17 @@ public class Player extends GameObject {
 	@Override
 	public void render(Graphics g) {
 		// Set the color and shape 
-		g.setColor(Color.white);
+		g.setColor(hud.getPlayerColor());
 		g.fillRect((int) x, (int) y, playerWidth, playerHeight);
 	}
 
 	// Used to set size 
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle((int) this.x, (int) this.y, 32, 32);
+		return new Rectangle((int) this.x, (int) this.y, playerWidth, playerHeight);
 	}
-
+	
+	
 	// Used to set the amount of damage taken 
 	public void setDamage(double damage) {
 		this.damage = damage;
@@ -187,5 +189,9 @@ public class Player extends GameObject {
 	// Used to get the size of the player 
 	public double getPlayerSize(){
 		return this.playerWidth;
+	}
+	
+	public int getPlayerSpeed() {
+		return this.playerSpeed;
 	}
 }
